@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.mapper.ZhuanyuanMapper">
+
+    <resultMap id="ZhuanyuanResultMap" type="com.sky.dto.ZhuanyuanDTO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="idNumber" column="id_number"/>
+        <result property="sex" column="sex"/>
+        <result property="active" column="active"/>
+        <result property="judge" column="judge"/>
+    </resultMap>
+
+    <select id="list" resultMap="ZhuanyuanResultMap">
+        SELECT
+        z.id,u.name, u.phone, u.id_number, u.sex,
+        z.active, z.judge
+        FROM zhuanyuan z
+        LEFT JOIN `user` u ON z.userid = u.id
+        <where>
+            <if test="name != null and name != ''">
+                AND u.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND u.phone LIKE CONCAT('%', #{phone}, '%')
+            </if>
+        </where>
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT COUNT(*)
+        FROM zhuanyuan z
+        LEFT JOIN `user` u ON z.userid = u.id
+        <where>
+            <if test="name != null and name != ''">
+                AND u.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND u.phone LIKE CONCAT('%', #{phone}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 更新奖励 -->
+    <update id="updateReward">
+        UPDATE zhuanyuan
+        SET judge = #{evaluation}, active = #{activity}
+        WHERE id = #{id}
+
+    </update>
+
+    <!-- 获取活跃度 -->
+    <select id="getActive" resultType="int">
+        SELECT
+            z.active
+        FROM zhuanyuan z
+        WHERE id = #{id}
+
+    </select>
+
+    <!-- 获取评价度 -->
+    <select id="getJudge" resultType="int">
+        SELECT z.judge FROM zhuanyuan z WHERE id = #{id}
+    </select>
+
+
+
+</mapper>
