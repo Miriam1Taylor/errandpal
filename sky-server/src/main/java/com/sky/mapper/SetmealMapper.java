@@ -16,7 +16,9 @@ import java.util.Map;
 
 @Mapper
 public interface SetmealMapper {
-
+    int updateStatusTo1(Long id);
+    int updateStatusTo2(Long id);
+    int updateStatusTo0(Long id);
     /**
      * 根据分类id查询套餐的数量
      * @param categoryId

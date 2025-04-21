@@ -19,7 +19,7 @@ import java.util.Set;
 @RestController("userDishController")
 @RequestMapping("/user/dish")
 @Slf4j
-@Api(tags = "C端-菜品浏览接口")
+@Api(tags = "C端-跑腿项目浏览接口")
 public class DishController {
     @Autowired
     private DishService dishService;
@@ -34,7 +34,7 @@ public class DishController {
      * @return
      */
     @GetMapping("/list")
-    @ApiOperation("根据分类id查询菜品")
+    @ApiOperation("根据分类id查询跑腿项目")
     public Result<List<DishVO>> list(Long categoryId) {
 //        构造redis中的key，规则：dish_分类Id
         String key = "dish_" + categoryId;

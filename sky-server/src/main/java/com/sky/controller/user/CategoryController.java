@@ -21,13 +21,13 @@ public class CategoryController {
 
     /**
      * 查询分类
-     * @param type
+     * @param status
      * @return
      */
     @GetMapping("/list")
     @ApiOperation("查询分类")
-    public Result<List<Category>> list(Integer type) {
-        List<Category> list = categoryService.list(type);
+    public Result<List<Category>> list(Integer status) {
+        List<Category> list = categoryService.list(status);
         return Result.success(list);
     }
 }

@@ -2,6 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.SetmealMapper">
+
+    <!-- 将 status 设置为 1 -->
+    <update id="updateStatusTo1"  parameterType="Long">
+        UPDATE setmeal
+        SET status = 1
+        WHERE id = #{id}
+    </update>
+
+    <!-- 将 status 设置为 2 -->
+    <update id="updateStatusTo2"  parameterType="Long">
+        UPDATE setmeal
+        SET status = 2
+        WHERE id = #{id}
+    </update>
+
+    <!-- 将 status 设置为 0 -->
+    <update id="updateStatusTo0"  parameterType="Long">
+        UPDATE setmeal
+        SET status = 0
+        WHERE id = #{id}
+    </update>
+
+
     <!--    向套餐表插入数据-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into setmeal(category_id, name, price, description, image, create_time, update_time, create_user,
@@ -95,4 +118,5 @@
             </if>
         </where>
     </select>
+
 </mapper>

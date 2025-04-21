@@ -1,4 +1,5 @@
 server:
+  #这个是后端端口，包括接口文档端口也是这个，前端菜啊是8081
   port: 8080
 
 spring:
@@ -19,13 +20,15 @@ spring:
     password: ${sky.redis.password}
     database: ${sky.redis.database}
 
+configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.sky.entity
-  configuration:
-    #开启驼峰命名
-    map-underscore-to-camel-case: true
+  #  注意
+  map-underscore-to-camel-case: true
 
 logging:
   level:
@@ -43,6 +46,7 @@ sky:
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+#    微信小程序
     user-secret-key: itheima
     user-ttl: 7200000
     user-token-name: authentication
@@ -62,6 +66,6 @@ sky:
     notifyUrl: ${sky.wechat.notifyUrl}
     refundNotifyUrl: ${sky.wechat.refundNotifyUrl}
   shop:
-    address: 湖北省武汉市洪山区徐东大街18号
+    address: 浙江省宁波市鄞州区学府路1号
   baidu:
     ak: EFEEFFEFEFE

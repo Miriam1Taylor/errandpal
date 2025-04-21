@@ -23,9 +23,7 @@
             <if test="name != null and name != ''">
                 AND u.name LIKE CONCAT('%', #{name}, '%')
             </if>
-            <if test="phone != null and phone != ''">
-                AND u.phone LIKE CONCAT('%', #{phone}, '%')
-            </if>
+            AND u.zystatus = 1
         </where>
         LIMIT #{offset}, #{limit}
     </select>
@@ -41,6 +39,7 @@
             <if test="phone != null and phone != ''">
                 AND u.phone LIKE CONCAT('%', #{phone}, '%')
             </if>
+        AND u.zystatus = 1
         </where>
     </select>
 
@@ -66,6 +65,27 @@
         SELECT z.judge FROM zhuanyuan z WHERE id = #{id}
     </select>
 
+<!--    这边看错文件了，应该在setmeal文件里面，现在这个是专员的文件-->
+    <!-- 将 status 设置为 1 -->
+    <update id="updateStatusTo1">
+        UPDATE setmeal
+        SET status = 1
+        WHERE id = #{id}
+    </update>
+
+    <!-- 将 status 设置为 2 -->
+    <update id="updateStatusTo2">
+        UPDATE setmeal
+        SET status = 2
+        WHERE id = #{id}
+    </update>
+
+    <!-- 将 status 设置为 0 -->
+    <update id="updateStatusTo0">
+        UPDATE setmeal
+        SET status = 0
+        WHERE id = #{id}
+    </update>
 
 
 </mapper>

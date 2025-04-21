@@ -10,6 +10,9 @@ import com.sky.vo.SetmealVO;
 import java.util.List;
 
 public interface SetmealService {
+    void updateStatusTo1(Long id);
+    void updateStatusTo2(Long id);
+    void updateStatusTo0(Long id);
     /**
      * 新增套餐
      * @param setmealDTO

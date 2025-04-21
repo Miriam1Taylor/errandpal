@@ -42,17 +42,17 @@ public interface CategoryMapper {
     @AutoFill(OperationType.UPDATE)
     void update(Category category);
 
-//    /**
-//     * 根据类型查询分类
-//     * @param type
-//     * @return
-//     */
-//    List<Category> list(Integer type);
-
     /**
      * 根据类型查询分类
      * @param status
      * @return
      */
     List<Category> list(Integer status);
+
+    /**
+     * 根据id查询分类
+     * @param id
+     * @return
+     */
+    List<Category> listById(Integer id);
 }

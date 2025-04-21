@@ -2,6 +2,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.UserMapper">
+
+    <!-- 点击审核通过按钮，更新用户的zystatus为1 -->
+    <update id="updateZyStatusById">
+        UPDATE user
+        SET zystatus = 1
+        WHERE id = #{id}
+    </update>
+
+    <!-- 点击审核拒绝按钮，更新用户的zystatus为2 -->
+    <update id="updateZyStatus2ById">
+        UPDATE user
+        SET zystatus = 0
+        WHERE id = #{id}
+    </update>
+
+    <!-- 获取待审核用户-->
+    <select id="selectZhuanyuanUsers" resultType="com.sky.entity.User">
+        SELECT id, name, openid, phone, id_number AS idNumber, sex, avatar, create_time AS createTime, zystatus
+        FROM user
+        <where>
+            zystatus = 2
+        </where>
+    </select>
+
+    <!-- 根据姓名或电话模糊查询用户 -->
+    <select id="selectUsersByNameOrPhone" resultType="com.sky.entity.User">
+        SELECT id, name, openid, phone, id_number AS idNumber, sex, avatar, create_time AS createTime, zystatus
+        FROM user
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone LIKE CONCAT('%', #{phone}, '%')
+            </if>
+        AND zystatus=2
+        </where>
+    </select>
+
+    <!-- 向zhuanyuan表中插入一条记录 -->
+    <insert id="insertZhuanyuan">
+        INSERT INTO zhuanyuan (active, judge, userid)
+        VALUES (0, 0, #{id})
+        ON DUPLICATE KEY UPDATE userid = userid;  <!-- 如果已经有了对用的userid就不插入 -->
+    </insert>
+
+
 <!--    创建新用户-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into user(openid, name, phone, sex, id_number, avatar, create_time)
@@ -33,4 +80,5 @@
             </if>
         </where>
     </select>
+
 </mapper>

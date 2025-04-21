@@ -100,4 +100,16 @@ public class CategoryController {
         List<Category> list = categoryService.list(status);
         return Result.success(list);
     }
+
+    /**
+     * 根据id查询分类
+     * @param id
+     * @return
+     */
+    @GetMapping("/listbyid")
+    @ApiOperation("根据类型查询分类")
+    public Result<List<Category>> listById(Integer id){
+        List<Category> listById = categoryService.listById(id);
+        return Result.success(listById);
+    }
 }

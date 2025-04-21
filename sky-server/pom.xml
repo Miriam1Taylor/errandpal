@@ -16,6 +16,12 @@
 
 
     <dependencies>
+<!--阿里云oss-sdk已经封装了这个依赖，不用单独配置了（依赖传递）-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.httpcomponents</groupId>-->
+<!--            <artifactId>httpclient</artifactId>-->
+<!--            <version>4.5.13</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.sky</groupId>

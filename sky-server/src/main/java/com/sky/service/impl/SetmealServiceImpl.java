@@ -29,7 +29,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class SetmealServiceImpl implements SetmealService {
-
     @Autowired
     private SetmealMapper setmealMapper;
 
@@ -38,6 +37,23 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Autowired
     private DishMapper dishMapper;
+
+
+    @Override
+    public void updateStatusTo1(Long id) {
+        setmealMapper.updateStatusTo1(id);
+    }
+
+    @Override
+    public void updateStatusTo2(Long id) {
+        setmealMapper.updateStatusTo2(id);
+    }
+
+    @Override
+    public void updateStatusTo0(Long id) {
+        setmealMapper.updateStatusTo0(id);
+    }
+
 
     /**
      * 新增套餐

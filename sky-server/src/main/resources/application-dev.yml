@@ -6,19 +6,25 @@ sky:
     database: sky_take_out
     username: root
     password: 123456
+    # 阿里云oss存储
   alioss:
     endpoint: oss-cn-hangzhou.aliyuncs.com
-    access-key-id: LTAI5tPeFLzsPPT8gG3LPW64
-    access-key-secret: U6k1brOZ8gaOIXv3nXbulGTUzy6Pd7
-    bucket-name: sky-take-out
+    access-key-id: LTAI5t75qiw2M3gLELn1ivwV
+    access-key-secret: NCbyvEAo14N8Z051cJZRE24HLM4yAZ
+    bucket-name: errandpal
   redis:
-    host: 192.168.8.128
+#    host: 192.168.8.128
+
+    host: 127.0.0.1
     port: 6379
-    password:
+    password: 123456
     database: 10
   wechat:
-    appid: wx9e8dde9d2df9df58
-    secret: 7a354c0cab2186281c18839acf453e37
+#    appid: wx9e8dde9d2df9df58
+#    secret: 7a354c0cab2186281c18839acf453e37
+    appid: wxfd1bdcedd4b2940d
+    secret: 4d8865844ed61de037f3ec2b1c82954a
+#    下面是预留微信支付实现需要的信息示例，暂未申请接口，需门店照片材料
     mchid: 1561414331
     mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
     privateKeyFilePath: D:\apiclient_key.pem

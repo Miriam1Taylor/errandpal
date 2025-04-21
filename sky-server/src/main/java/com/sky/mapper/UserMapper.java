@@ -6,10 +6,19 @@ import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
 public interface UserMapper {
+
+    int updateZyStatusById(@Param("id") Long id);
+    int updateZyStatus2ById(@Param("id") Long id);
+    int insertZhuanyuan(@Param("id") Long id);
+    List<User> selectZhuanyuanUsers();
+
+    // 根据姓名或电话模糊查询用户
+    List<User> selectUsersByNameOrPhone(String name, String phone);
     /**
      * 根据id获取用户信息
      * @param id

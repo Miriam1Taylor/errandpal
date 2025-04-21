@@ -20,4 +20,7 @@ public class SetmealOverViewVO implements Serializable {
 
     // 已停售数量
     private Integer discontinued;
+
+    //投诉图片
+    private String image;
 }

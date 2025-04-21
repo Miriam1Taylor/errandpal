@@ -39,4 +39,18 @@ public class User implements Serializable {
 
     //注册时间
     private LocalDateTime createTime;
+
+    private Integer zystatus;
+
+//    private Long createUser;
+//    private LocalDateTime updateTime;
+
+//    public void setUpdateTime(LocalDateTime updateTime) {
+//        this.updateTime = updateTime;
+//    }
+//
+//    public void setCreateUser(Long createUser) {
+//        this.createUser = createUser;
+//    }
+
 }

@@ -67,16 +67,18 @@ public class AutoFillAspect {
         if (operationType == OperationType.INSERT) {
 //            为4个公共字段赋值
             try {
+                // TODO
                 Method setCreateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_TIME, LocalDateTime.class);
-                Method setCreateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER, Long.class);
-                Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
-                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
+//                Method setCreateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER, Long.class);
+//                Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
+//                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
 
 //              通过反射为对象赋值
+                //TODO
                 setCreateTime.invoke(entity, now);
-                setCreateUser.invoke(entity, currentId);
-                setUpdateTime.invoke(entity, now);
-                setUpdateUser.invoke(entity, currentId);
+//                setCreateUser.invoke(entity, currentId);
+//                setUpdateTime.invoke(entity, now);
+//                setUpdateUser.invoke(entity, currentId);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
