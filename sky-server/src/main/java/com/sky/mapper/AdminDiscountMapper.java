@@ -1,7 +1,9 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
 import com.sky.entity.Discount;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
 public interface AdminDiscountMapper {
 
     // 批量插入折扣数据
-    void insertBatch(List<Discount> discounts);
+    void insertBatch(Discount discount);
 
     // 根据id删除折扣数据
     void deleteById(Long id);
@@ -18,5 +20,7 @@ public interface AdminDiscountMapper {
     Discount getById(Long id);
 
     // 查询所有折扣数据
-    List<Discount> getAll();
+    Page<Discount> getAll(@Param("name") String name, @Param("status") String status);
+
+    int updateDiscount(Discount discount);
 }

@@ -32,6 +32,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -152,19 +153,35 @@ public class OrderServiceImpl implements OrderService {
         Orders orders = orderMapper.getByNumberAndUserId(orderNumber, userId);
 
 //        调用微信支付接口，生成预支付交易单
-        JSONObject jsonObject = weChatPayUtil.pay(
-                ordersPaymentDTO.getOrderNumber(),
-                orders.getAmount(),
-                "苍穹外卖订单" + orders.getId(),
-                user.getOpenid()
-        );
-
-        if (jsonObject.getString("code") != null && jsonObject.getString("code").equals("ORDERPAID")) {
-            throw new OrderBusinessException("该订单已支付");
-        }
-
+//        JSONObject jsonObject = weChatPayUtil.pay(
+//                ordersPaymentDTO.getOrderNumber(),
+//                orders.getAmount(),
+//                "校跑帮订单" + orders.getId(),
+//                user.getOpenid()
+//        );
+//
+//        if (jsonObject.getString("code") != null && jsonObject.getString("code").equals("ORDERPAID")) {
+//            throw new OrderBusinessException("该订单已支付");
+//        }
+        // 替代微信支付的方法
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code","ORDERPAID");
         OrderPaymentVO vo = jsonObject.toJavaObject(OrderPaymentVO.class);
         vo.setPackageStr(jsonObject.getString("package"));
+
+        //为替代微信支付成功后的数据库订单状态更新,多定义一个方法进行修改
+        Integer OrderPaidStatus = Orders.PAID;  //支付状态,已支付
+        Integer OrderStatus = Orders.TO_BE_CONFIRMED;  //订单状态,待接单
+
+        //发现没有将支付时间 check_out属性赋值,所以在这里更新
+        LocalDateTime check_out_time = LocalDateTime.now();
+
+        //获取订单号码
+//        String orderNumber = ordersPaymentDTO.getOrderNumber();
+
+        log.info("调用updtateStatus,用于替换微信支付更新数据库状态的问题");
+        orderMapper.updateStatus(OrderStatus, OrderPaidStatus, check_out_time, orderNumber);
+
 
         return vo;
     }
@@ -247,6 +264,9 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderVO details(Long id) {
+        //TODO查不到订单
+        id = 1L;
+        System.out.println("查询订单详情id:"+ id);
 //        根据id查询订单
         Orders orders = orderMapper.getById(id);
 
@@ -355,6 +375,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderStatisticsVO statistics() {
 //        根据状态，分别查询出接待单，待派送、派送中的订单数量
+
         Integer toBeConfirmed = orderMapper.countStatus(Orders.TO_BE_CONFIRMED);
         Integer confirmed = orderMapper.countStatus(Orders.CONFIRMED);
         Integer deliveryInProgress = orderMapper.countStatus(Orders.DELIVERY_IN_PROGRESS);
@@ -426,18 +447,23 @@ public class OrderServiceImpl implements OrderService {
     public void cancel(OrdersCancelDTO ordersCancelDTO) throws Exception {
 //        根据id查询订单
         Orders orderDB = orderMapper.getById(ordersCancelDTO.getId());
-
+        System.out.println("支付状态paystatus:"+orderDB);
 //        支付状态
         Integer payStatus = orderDB.getPayStatus();
+        System.out.println("支付状态paystatus:"+payStatus);
         if (payStatus == 1) {
 //            用于已支付，需要退款
-            String refund = weChatPayUtil.refund(
-                    orderDB.getNumber(),
-                    orderDB.getNumber(),
-                    orderDB.getAmount(),
-                    orderDB.getAmount()
-            );
-            log.info("申请退款：{}", refund);
+//            String refund = weChatPayUtil.refund(
+//                    orderDB.getNumber(),
+//                    orderDB.getNumber(),
+//                    orderDB.getAmount(),
+//                    orderDB.getAmount()
+//            );
+//            log.info("申请退款：{}", refund);
+
+            // 模拟退款逻辑（替代真实的微信退款）
+            String refund = "模拟退款成功：订单号=" + orderDB.getNumber() + "，金额=" + orderDB.getAmount();
+            log.info("模拟退款：{}", refund);
         }
 
 //      管理端取消订单需要退款，根据订单id更新订单状态、取消原因、取消时间
@@ -481,19 +507,22 @@ public class OrderServiceImpl implements OrderService {
 //        根据id查询订单
         Orders orderDB = orderMapper.getById(id);
 
+
 //        校验订单是否存在，并且状态为4
         if (orderDB == null || !orderDB.getStatus().equals(Orders.DELIVERY_IN_PROGRESS)) {
             throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
         }
 
-        Orders orders = new Orders();
-        orders.setId(orders.getId());
+//        这里不应该创建新对象
+//        Orders orders = new Orders();
+//        orders.setId(orders.getId());
 
 //        更新订单状态，状态转为完成
-        orders.setStatus(Orders.CONFIRMED);
-        orders.setDeliveryTime(LocalDateTime.now());
+        orderDB.setStatus(Orders.COMPLETED);
+        System.out.println("订单status:"+orderDB.getStatus());
+        orderDB.setDeliveryTime(LocalDateTime.now());
 
-        orderMapper.update(orders);
+        orderMapper.update(orderDB);
     }
 
     /**

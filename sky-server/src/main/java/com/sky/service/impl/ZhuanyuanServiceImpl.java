@@ -3,6 +3,7 @@ package com.sky.service.impl;
 import com.sky.dto.PasswordEditDTO;
 import com.sky.dto.RewardPunishDTO;
 import com.sky.dto.ZhuanyuanDTO;
+import com.sky.entity.User;
 import com.sky.mapper.ZhuanyuanMapper;
 import com.sky.result.PageResult;
 import com.sky.service.ZhuanyuanService;
@@ -29,7 +30,7 @@ public class ZhuanyuanServiceImpl implements ZhuanyuanService {
 
     // 实现奖励操作
     @Override
-    public void addReward(RewardPunishDTO dto){
+    public void addReward(RewardPunishDTO dto) {
         Long id = dto.getId();
 //        System.out.println(id);
 
@@ -41,13 +42,13 @@ public class ZhuanyuanServiceImpl implements ZhuanyuanService {
 //        System.out.println(judge);
 //        System.out.println(active);
 
-        zhuanyuanMapper.updateReward(id,ev+judge,active+ac);
+        zhuanyuanMapper.updateReward(id, ev + judge, active + ac);
     }
 
 
     @Transactional
     @Override
-    public void addPunish(RewardPunishDTO dto){
+    public void addPunish(RewardPunishDTO dto) {
         Long id = dto.getId();
 
         int ac = dto.getActivity();
@@ -66,5 +67,16 @@ public class ZhuanyuanServiceImpl implements ZhuanyuanService {
         zhuanyuanMapper.updateReward(id, newJudge, newActive);
     }
 
+    @Override
+    public boolean deleteById(Long id) {
+        return zhuanyuanMapper.deleteById(id) > 0;
+    }
 
+    @Override
+    public void deleteAndUpdateZystatus(Long id) {
+        // 先更新 user 表
+        zhuanyuanMapper.updateZystatusTo2(id);
+        // 然后删除 zhuanyuan 表的记录
+        deleteById(id);
+    }
 }

@@ -65,7 +65,26 @@
         SELECT z.judge FROM zhuanyuan z WHERE id = #{id}
     </select>
 
-<!--    这边看错文件了，应该在setmeal文件里面，现在这个是专员的文件-->
+
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM zhuanyuan WHERE id = #{id}
+    </delete>
+
+    <!-- 通过 zhuanyuan 表的 id 更新 user 表中的 zystatus 为 2 -->
+    <update id="updateZystatusTo2">
+        UPDATE user
+        SET zystatus = 2
+        WHERE id = (
+            SELECT userid
+            FROM zhuanyuan
+            WHERE id = #{id}
+        )
+    </update>
+
+
+
+    <!--    这边看错文件了，应该在setmeal文件里面，现在这个是专员的文件-->
     <!-- 将 status 设置为 1 -->
     <update id="updateStatusTo1">
         UPDATE setmeal
@@ -86,6 +105,5 @@
         SET status = 0
         WHERE id = #{id}
     </update>
-
 
 </mapper>

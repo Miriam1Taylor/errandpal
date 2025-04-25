@@ -1,6 +1,5 @@
 package com.sky.mapper;
 
-// src/main/java/com/yourpackage/mapper/ZhuanyuanMapper.java
 import com.sky.dto.ZhuanyuanDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +27,9 @@ public interface ZhuanyuanMapper {
     int getActive(@Param("id") Long id);
     int getJudge(@Param("id") Long id);
 
+    // 更新 user 表中的 zystatus
+    int updateZystatusTo2(@Param("id") Long id);
+
+    // 删除 zhuanyuan 表中的记录
+    int deleteById(Long id);
 }

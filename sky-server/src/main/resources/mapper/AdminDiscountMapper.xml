@@ -5,11 +5,23 @@
 
     <!-- 插入批量折扣数据 -->
     <insert id="insertBatch">
-        insert into discount (name, count) VALUES
-        <foreach collection="discounts" separator="," item="item">
-            (#{item.name}, #{item.count})
-        </foreach>
+        insert into discount (name, count, iszy, starttime, endtime, status, createtime, updatetime)
+        values (#{name}, #{count}, #{iszy}, #{starttime}, #{endtime}, #{status}, #{createtime}, #{updatetime})
     </insert>
+
+<!--更新数据表-->
+    <update id="updateDiscount" parameterType="com.sky.entity.Discount">
+        UPDATE discount
+        SET
+            name = #{name},
+            count = #{count},
+            iszy = #{iszy},
+            starttime = #{starttime},
+            endtime = #{endtime},
+            status = #{status}
+        WHERE id = #{id}
+    </update>
+
 
     <!-- 根据id删除折扣数据 -->
     <delete id="deleteById">
@@ -20,15 +32,26 @@
 
     <!-- 根据id查询折扣数据 -->
     <select id="getById" resultType="com.sky.entity.Discount">
-        select id, name, count
+        select *
         from discount
         where id = #{id};
     </select>
 
-    <!-- 查询所有折扣数据 -->
+
+
     <select id="getAll" resultType="com.sky.entity.Discount">
-        select id, name, count
-        from discount;
+        select *
+        from discount
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+        order by id asc
     </select>
+
 
 </mapper>

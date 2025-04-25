@@ -9,6 +9,7 @@ import com.sky.service.ZhuanyuanService ;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,16 @@ public class ZhuanyuanController {
     ) {
         PageResult pageResult = zhuanyuanService.list(page, pageSize, name, phone);
         return Result.success(pageResult);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteZhuanyuan(@PathVariable("id") Long id) {
+        try {
+            zhuanyuanService.deleteAndUpdateZystatus(id);
+            return ResponseEntity.ok("删除并更新成功");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("删除失败，记录不存在");
+        }
     }
 
     @PostMapping("/reward")

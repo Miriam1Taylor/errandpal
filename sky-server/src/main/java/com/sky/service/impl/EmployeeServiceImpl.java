@@ -24,6 +24,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,7 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         //密码比对
-        // TODO 后期需要进行md5加密，然后再进行比对，v.sha256
+        // TODO 后期需要进行sha256加密，然后再进行比对,(取消md5加密,安全性不行)
 //        password = DigestUtils.md5DigestAsHex(password.getBytes());
         password = DigestUtils.sha256Hex(employeeLoginDTO.getPassword().getBytes());
         if (!password.equals(employee.getPassword())) {
@@ -112,15 +113,28 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
-//        开始分页查询
-        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+        Long id = BaseContext.getCurrentId();
+        String name = employeeMapper.getById(id).getName();
+        if(id == 1){
+            //        开始分页查询
+            PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
 
-        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+            Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
 
-        long total = page.getTotal();
-        List<Employee> records = page.getResult();
+            long total = page.getTotal();
+            List<Employee> records = page.getResult();
 
-        return new PageResult(total, records);
+            return new PageResult(total, records);
+        }else{
+            // 普通员工：只查自己
+            Employee employee = employeeMapper.getById(id);
+            List<Employee> records = new ArrayList<>();
+            if (employee != null) {
+                records.add(employee);
+            }
+
+            return new PageResult(records.size(), records);  // 只有一条或零条
+        }
     }
 
     /**

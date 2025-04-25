@@ -17,5 +17,9 @@ public interface ZhuanyuanService{
     void addReward(RewardPunishDTO dto);
     // 惩罚操作
     void addPunish(RewardPunishDTO dto);
+
+    boolean deleteById(Long id);
+
+    void deleteAndUpdateZystatus(Long id);
 }
 

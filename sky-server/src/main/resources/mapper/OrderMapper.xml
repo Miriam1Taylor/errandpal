@@ -69,7 +69,14 @@
 
 <!--    根据id查询订单-->
     <select id="getById" resultType="com.sky.entity.Orders">
-        select *
+        select id, number, status, user_id as userId, address_book_id as addressBookId,
+               order_time as orderTime, checkout_time as checkoutTime, pay_method as payMethod,
+               pay_status as payStatus, amount, remark, user_name as userName, phone, address,
+               consignee, cancel_reason as cancelReason, rejection_reason as rejectionReason,
+               cancel_time as cancelTime, estimated_delivery_time as estimatedDeliveryTime,
+               delivery_status as deliveryStatus, delivery_time as deliveryTime, pack_amount as packAmount,
+               tableware_number as tablewareNumber, tableware_status as tablewareStatus
+
         from orders
         where id = #{id};
     </select>
