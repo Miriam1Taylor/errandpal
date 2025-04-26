@@ -6,11 +6,9 @@ import com.sky.mapper.DishMapper;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.mapper.UserMapper;
+import com.sky.service.UserService;
 import com.sky.service.WorkspaceService;
-import com.sky.vo.BusinessDataVO;
-import com.sky.vo.DishOverViewVO;
-import com.sky.vo.OrderOverViewVO;
-import com.sky.vo.SetmealOverViewVO;
+import com.sky.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -162,5 +160,24 @@ public class WorkspaceServiceImpl implements WorkspaceService {
                 .sold(sold)
                 .discontinued(discontinued)
                 .build();
+    }
+
+    @Override
+    public SetmealOverViewVO ReviewOverView() {
+        return null;
+    }
+
+    /**
+     * 查询套餐总览
+     *
+     * @return
+     */
+    public ReviewOverViewVO reviewOverView() {
+        Map map = new HashMap();
+        map.put("zystatus", 2);
+        Integer unreviewed = userMapper.countByMap(map);
+
+        return ReviewOverViewVO.builder()
+                .unreviewed(unreviewed).build();
     }
 }

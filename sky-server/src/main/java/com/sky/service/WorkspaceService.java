@@ -33,4 +33,10 @@ public interface WorkspaceService {
      * @return
      */
     SetmealOverViewVO getSetmealOverView();
+
+    /**
+     * 查询审核总览
+     * @return
+     */
+    SetmealOverViewVO ReviewOverView();
 }
