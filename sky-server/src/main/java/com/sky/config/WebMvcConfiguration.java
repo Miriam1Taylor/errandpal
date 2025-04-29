@@ -52,6 +52,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/user/shop/status");
     }
 
+    //http://localhost:8080/doc.html#/home    knife4j生成文档
     /**
      * 通过knife4j生成接口文档
      * @return

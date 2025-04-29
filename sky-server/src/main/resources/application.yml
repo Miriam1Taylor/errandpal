@@ -1,5 +1,5 @@
 server:
-  #这个是后端端口，包括接口文档端口也是这个，前端菜啊是8081
+  #这个是后端端口，包括接口文档端口也是这个，前端是8081
   port: 8080
 
 spring:
@@ -20,15 +20,16 @@ spring:
     password: ${sky.redis.password}
     database: ${sky.redis.database}
 
-configuration:
-    #开启驼峰命名
-    map-underscore-to-camel-case: true
+#configuration:
+#    #开启驼峰命名
+#    map-underscore-to-camel-case: true
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.sky.entity
   #  注意
-  map-underscore-to-camel-case: true
+  configuration:
+    map-underscore-to-camel-case: true
 
 logging:
   level:
@@ -68,4 +69,4 @@ sky:
   shop:
     address: 浙江省宁波市鄞州区学府路1号
   baidu:
-    ak: EFEEFFEFEFE
+    ak: xEUl38WSFJaoeho5Z0GfrOu3EmPStQh7

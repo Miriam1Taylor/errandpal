@@ -30,14 +30,13 @@ public interface OrderService {
     void paySuccess(String outTradeNo);
 
     /**
-     * 历史订单查询
-     *
-     * @param pageNum
+     * 用户端订单分页查询
+     * @param page
      * @param pageSize
-     * @param status   订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
+     * @param status
      * @return
      */
-    PageResult pageQueryForUser(int pageNum, int pageSize, Integer status);
+    PageResult pageQuery4User(int page, int pageSize, Integer status);
 
     /**
      * 查询订单详情

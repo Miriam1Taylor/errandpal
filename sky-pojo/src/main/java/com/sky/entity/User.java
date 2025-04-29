@@ -42,15 +42,20 @@ public class User implements Serializable {
 
     private Integer zystatus;
 
-//    private Long createUser;
-//    private LocalDateTime updateTime;
+    private Long createUser;
+    private LocalDateTime updateTime;
+    private Long updateUser;
 
-//    public void setUpdateTime(LocalDateTime updateTime) {
-//        this.updateTime = updateTime;
-//    }
-//
-//    public void setCreateUser(Long createUser) {
-//        this.createUser = createUser;
-//    }
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public void setCreateUser(Long createUser) {
+        this.createUser = createUser;
+    }
+
+    public void setUpdateUser(Long updateUser) {
+        this.updateUser = updateUser;
+    }
 
 }

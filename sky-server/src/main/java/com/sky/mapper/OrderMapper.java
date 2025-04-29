@@ -35,9 +35,8 @@ public interface OrderMapper {
     void update(Orders orders);
 
     /**
-     * 分页条件查询
+     * 分页条件查询并按下单时间排序
      * @param ordersPageQueryDTO
-     * @return
      */
     Page<Orders> pageQuery(OrdersPageQueryDTO ordersPageQueryDTO);
 

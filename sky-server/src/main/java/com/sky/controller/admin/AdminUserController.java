@@ -1,6 +1,5 @@
 package com.sky.controller.admin;
 
-//http://localhost:8080/doc.html#/home
 import com.sky.context.BaseContext;
 import com.sky.entity.User;
 import com.sky.mapper.UserMapper;

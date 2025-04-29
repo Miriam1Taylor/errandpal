@@ -218,44 +218,47 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 历史订单查询
+     * 用户端订单分页查询
      *
      * @param pageNum
      * @param pageSize
-     * @param status   订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
+     * @param status
      * @return
      */
     @Override
-    public PageResult pageQueryForUser(int pageNum, int pageSize, Integer status) {
-//        设置分页
+    public PageResult pageQuery4User(int pageNum, int pageSize, Integer status) {
+        //需要在查询功能之前开启分页功能：当前页的页码   每页显示的条数
         PageHelper.startPage(pageNum, pageSize);
 
+        //封装所需的请求参数为DTO对象
         OrdersPageQueryDTO ordersPageQueryDTO = new OrdersPageQueryDTO();
         ordersPageQueryDTO.setUserId(BaseContext.getCurrentId());
         ordersPageQueryDTO.setStatus(status);
 
-//        分页条件查询
+        // 分页条件查询
         Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
 
-        ArrayList<OrderVO> list = new ArrayList<>();
+        //由接口可知需要封装为orderVO类型：订单菜品信息orderDishes，订单详情orderDetailList
+        List<OrderVO> list = new ArrayList();
 
-//        查询出订单明细，并封装入OrderVo进行响应
-        if (page != null && page.getTotal() > 0) {
-            page.forEach(orders -> {
-                Long ordersId = orders.getId();
+        // 查询出订单明细，并封装入OrderVO进行响应
+        if (page != null && page.getTotal() > 0) { //有订单才有必要接着查询订单详情信息
+            for (Orders orders : page) {
+                Long orderId = orders.getId();// 订单id
 
-//                查询订单明细
-                List<OrderDetail> orderDetailList = orderDetailMapper.getByOrderId(ordersId);
+                // 根据订单id,查询订单明细
+                List<OrderDetail> orderDetails = orderDetailMapper.getByOrderId(orderId);
 
                 OrderVO orderVO = new OrderVO();
                 BeanUtils.copyProperties(orders, orderVO);
-                orderVO.setOrderDetailList(orderDetailList);
-                list.add(orderVO);
-            });
-        }
+                orderVO.setOrderDetailList(orderDetails);
 
+                list.add(orderVO);
+            }
+        }
         return new PageResult(page.getTotal(), list);
     }
+
 
     /**
      * 查询订单详情
@@ -264,8 +267,8 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderVO details(Long id) {
-        //TODO查不到订单
-        id = 1L;
+        //TODO查不到订单，，，，接口参数前面忘记加@PathVariable了。。。。。无语
+//        id = 1L;
         System.out.println("查询订单详情id:"+ id);
 //        根据id查询订单
         Orders orders = orderMapper.getById(id);

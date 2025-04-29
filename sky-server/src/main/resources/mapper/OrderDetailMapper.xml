@@ -16,6 +16,6 @@
     <select id="getByOrderId" resultType="com.sky.entity.OrderDetail">
         select *
         from order_detail
-        where order_id = #{id};
+        where order_id = #{ordersId};
     </select>
 </mapper>
