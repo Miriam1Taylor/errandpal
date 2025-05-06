@@ -23,10 +23,11 @@ public class ShequController {
 
     @ApiOperation("发布帖子")
     @PostMapping("/post")
-    public String post(@RequestBody Shequ shequ) {
+    public Result<String> post(@RequestBody Shequ shequ) {
         shequService.post(shequ);
-        return "帖子发布成功";
+        return Result.success("帖子发布成功");
     }
+
 
     @ApiOperation("帖子点赞")
     @PostMapping("/like")
@@ -43,10 +44,11 @@ public class ShequController {
 
     @ApiOperation("删除帖子")
     @DeleteMapping("/delete")
-    public String delete(@RequestParam Integer id) {
+    public Result<String> delete(@RequestParam Integer id) {
         shequService.delete(id);
-        return "帖子删除成功";
+        return Result.success("帖子删除成功");
     }
+
 
     @ApiOperation("帖子列表")
     @GetMapping("/list")

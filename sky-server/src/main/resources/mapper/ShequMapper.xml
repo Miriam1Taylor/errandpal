@@ -34,11 +34,14 @@
         SELECT
             s.*,
             u.name,
-            u.avatar
+            u.avatar,
+            us.isliked
         FROM
             shequ s
                 JOIN
             user u ON s.userid = u.id
+                LEFT JOIN
+            usershe us ON us.shequid = s.id
         WHERE
             s.id = #{id}
     </select>

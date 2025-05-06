@@ -33,11 +33,14 @@
         SELECT
             p.*,
             u.name,
-            u.avatar
+            u.avatar,
+            up.isliked
         FROM
             pinglun p
                 JOIN
             user u ON p.userid = u.id
+                LEFT JOIN
+            userping up ON up.pinglunid = p.id
         WHERE
             p.shequid = #{shequId}
     </select>
