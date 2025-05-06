@@ -1,5 +1,6 @@
 package com.sky.service;
 
+import com.sky.dto.OrderCommentStatusDTO;
 import com.sky.entity.Comment;
 
 import java.util.List;
@@ -10,6 +11,8 @@ public interface CommentService {
     List<Comment> getAllComments();
 
     List<Comment> getCommentsByUserId(Long userId);
+
+    OrderCommentStatusDTO getCommentStatusByOrderId(Long orderId);
 
     Comment getCommentByOrderId(Long orderId);
 }

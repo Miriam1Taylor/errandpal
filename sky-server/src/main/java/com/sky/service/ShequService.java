@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ShequService {
     void post(Shequ shequ);
-    void like(Integer id);
+    void like(Long id);
     void delete(Integer id);
 
     List<ShequUserDTO> listShequWithUserName();

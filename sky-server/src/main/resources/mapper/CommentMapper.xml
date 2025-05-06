@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.CommentMapper">
+
+    <select id="selectOrderCommentStatusById" resultType="com.sky.dto.OrderCommentStatusDTO">
+        SELECT
+            o.id AS orderId,
+            CASE
+                WHEN c.id IS NOT NULL THEN '已评论'
+                ELSE '暂未评论'
+                END AS commentStatus
+        FROM orders o
+                 LEFT JOIN comment c ON o.id = c.orderid
+        WHERE o.id = #{orderId}
+    </select>
+
+</mapper>

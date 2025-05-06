@@ -16,6 +16,13 @@
         DELETE FROM shequ WHERE id = #{id}
     </delete>
 
+    <update id="incrementLikeCount">
+        UPDATE shequ SET like_count = like_count + 1 WHERE id = #{id}
+    </update>
+
+    <update id="decrementLikeCount">
+        UPDATE shequ SET like_count = like_count - 1 WHERE id = #{id}
+    </update>
 
     <select id="getShequWithUserName" resultType="com.sky.dto.ShequUserDTO">
         SELECT s.id, s.title, u.name

@@ -1,12 +1,12 @@
 package com.sky.service.impl;
 
+import com.sky.dto.OrderCommentStatusDTO;
 import com.sky.entity.Comment;
 import com.sky.mapper.CommentMapper;
 import com.sky.mapper.OrderMapper;
 import com.sky.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -23,6 +23,11 @@ public class CommentServiceImpl implements CommentService {
         comment.setUserid(userId);  // 设置当前用户ID
         commentMapper.insert(comment); // 插入评论
         orderMapper.updateCommentId(comment.getOrderid(), comment.getId()); // 更新订单的 commentid 字段
+    }
+
+    @Override
+    public OrderCommentStatusDTO getCommentStatusByOrderId(Long orderId) {
+        return commentMapper.selectOrderCommentStatusById(orderId);
     }
 
     @Override

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.UserSheMapper">
+
+    <select id="getIsLiked" resultType="Integer">
+        SELECT isliked FROM usershe WHERE userid = #{userId} AND shequid = #{shequId}
+    </select>
+
+    <select id="getUserShe" resultType="UserShe">
+        SELECT * FROM usershe WHERE userid = #{userId} AND shequid = #{shequId}
+    </select>
+
+    <insert id="insertUserShe">
+        INSERT INTO usershe(userid, shequid, isliked) VALUES(#{userId}, #{shequId}, #{isLiked})
+    </insert>
+
+    <update id="updateUserShe">
+        UPDATE usershe SET isliked = #{isLiked} WHERE userid = #{userId} AND shequid = #{shequId}
+    </update>
+
+</mapper>

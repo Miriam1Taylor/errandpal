@@ -13,6 +13,18 @@
         UPDATE pinglun SET like_count = like_count + 1 WHERE id = #{id}
     </update>
 
+    <update id="unlikePinglun">
+        UPDATE pinglun SET like_count = like_count - 1 WHERE id = #{id}
+    </update>
+
+    <update id="incrementLikeCount">
+        UPDATE pinglun SET like_count = like_count + 1 WHERE id = #{id}
+    </update>
+
+    <update id="decrementLikeCount">
+        UPDATE pinglun SET like_count = like_count - 1 WHERE id = #{id}
+    </update>
+
     <delete id="deletePinglun">
         DELETE FROM pinglun WHERE id = #{id}
     </delete>

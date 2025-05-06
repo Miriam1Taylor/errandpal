@@ -1,6 +1,7 @@
 package com.sky.controller.user;
 
 import com.sky.context.BaseContext;
+import com.sky.dto.LikeRequestDTO;
 import com.sky.dto.PinglunDTO;
 import com.sky.dto.PinglunDetailDTO;
 import com.sky.entity.Pinglun;
@@ -8,7 +9,6 @@ import com.sky.result.Result;
 import com.sky.service.PinglunService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +21,6 @@ import java.util.Map;
 public class PinglunController {
     @Autowired
     private PinglunService pinglunService;
-
-//    @ApiOperation("发布评论")
-//    @PostMapping("/comment")
-//    public Result<String> comment(@RequestBody Pinglun pinglun) {
-//        pinglunService.comment(pinglun);
-//        return Result.success("评论成功");
-//    }
 
     @ApiOperation("发布评论")
     @PostMapping("/comment")
@@ -46,23 +39,21 @@ public class PinglunController {
         }
     }
 
-
-
     @ApiOperation("评论点赞")
     @PostMapping("/like")
-    public Result<String> like(@RequestParam Integer id) {
+    public Result<String> like(@RequestBody LikeRequestDTO dto) {
         try {
-            pinglunService.like(id);
-            return Result.success("点赞成功");
+            pinglunService.like(dto.getId());
+            return Result.success("操作成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.error("点赞失败");
+            return Result.error("操作失败");
         }
     }
 
     @ApiOperation("删除评论")
     @DeleteMapping("/delete")
-    public Result<String> delete(@RequestParam Integer id) {
+    public Result<String> delete(@RequestBody Integer id) {
         try {
             pinglunService.delete(id);
             return Result.success("评论删除成功");

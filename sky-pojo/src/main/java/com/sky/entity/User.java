@@ -37,25 +37,24 @@ public class User implements Serializable {
     //头像
     private String avatar;
 
-    //注册时间
-    private LocalDateTime createTime;
-
     private Integer zystatus;
 
+    //注册时间
+    private LocalDateTime createTime;
     private Long createUser;
     private LocalDateTime updateTime;
     private Long updateUser;
 
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public void setCreateUser(Long createUser) {
-        this.createUser = createUser;
-    }
-
-    public void setUpdateUser(Long updateUser) {
-        this.updateUser = updateUser;
-    }
+//    public void setUpdateTime(LocalDateTime updateTime) {
+//        this.updateTime = updateTime;
+//    }
+//
+//    public void setCreateUser(Long createUser) {
+//        this.createUser = createUser;
+//    }
+//
+//    public void setUpdateUser(Long updateUser) {
+//        this.updateUser = updateUser;
+//    }
 
 }

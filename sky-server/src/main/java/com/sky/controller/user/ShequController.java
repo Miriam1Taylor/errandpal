@@ -1,5 +1,7 @@
 package com.sky.controller.user;
 
+import com.sky.context.BaseContext;
+import com.sky.dto.LikeRequestDTO;
 import com.sky.dto.ShequDetailDTO;
 import com.sky.dto.ShequUserDTO;
 import com.sky.entity.Shequ;
@@ -7,7 +9,6 @@ import com.sky.result.Result;
 import com.sky.service.ShequService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +30,16 @@ public class ShequController {
 
     @ApiOperation("帖子点赞")
     @PostMapping("/like")
-    public String like(@RequestParam Integer id) {
-        shequService.like(id);
-        return "点赞成功";
+    public Result<String> like(@RequestBody LikeRequestDTO dto) {
+        try {
+            shequService.like(dto.getId());
+            return Result.success("操作成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error("操作失败");
+        }
     }
+
 
     @ApiOperation("删除帖子")
     @DeleteMapping("/delete")

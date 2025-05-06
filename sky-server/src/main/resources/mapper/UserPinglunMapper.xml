@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.UserPingMapper">
+
+    <select id="getIsLiked" resultType="Integer">
+        SELECT isliked FROM userping WHERE userid = #{userId} AND pinglunid = #{pinglunId}
+    </select>
+
+    <select id="getUserPing" resultType="UserPing">
+        SELECT * FROM userping WHERE userid = #{userId} AND pinglunid = #{pinglunId}
+    </select>
+
+    <insert id="insertUserPing">
+        INSERT INTO userping(userid, pinglunid, isliked) VALUES(#{userId}, #{pinglunId}, #{isLiked})
+    </insert>
+
+    <update id="updateUserPing">
+        UPDATE userping SET isliked = #{isLiked} WHERE userid = #{userId} AND pinglunid = #{pinglunId}
+    </update>
+
+</mapper>
