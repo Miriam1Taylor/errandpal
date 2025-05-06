@@ -1,6 +1,6 @@
 package com.sky.service.impl;
 
-import com.sky.context.BaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.dto.PinglunDetailDTO;
 import com.sky.entity.Pinglun;
 import com.sky.entity.UserPing;
@@ -32,7 +32,7 @@ public class PinglunServiceImpl implements PinglunService {
 
     @Override
     public void like(Long pinglunId) {
-        Long userId = BaseContext.getCurrentId();
+        Long userId = UserBaseContext.getCurrentId();
 
         UserPing userPing = userPingMapper.getUserPing(userId, pinglunId);
         if (userPing == null) {

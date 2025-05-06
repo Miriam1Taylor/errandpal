@@ -4,7 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
-import com.sky.context.BaseContext;
+import com.sky.context.AdminBaseContext;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
@@ -116,7 +116,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .id(id)
                 .status(status)
                 .updateTime(LocalDateTime.now())
-                .updateUser(BaseContext.getCurrentId())
+                .updateUser(AdminBaseContext.getCurrentId())
                 .build();
         categoryMapper.update(category);
     }

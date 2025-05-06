@@ -1,6 +1,6 @@
 package com.sky.service.impl;
 
-import com.sky.context.BaseContext;
+import com.sky.context.AdminBaseContext;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.PasswordEditDTO;
 import com.sky.entity.Employee;
@@ -20,7 +20,7 @@ public class PasswordEditImpl implements PasswordEditService {
     @Override
     public void passedit(PasswordEditDTO dto) {
         // 获取当前登录员工ID
-        Long empId = BaseContext.getCurrentId();
+        Long empId = AdminBaseContext.getCurrentId();
 
         System.out.println(empId);
         // 获取数据库中的旧员工信息

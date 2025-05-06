@@ -1,6 +1,6 @@
 package com.sky.controller.user;
 
-import com.sky.context.BaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.dto.LikeRequestDTO;
 import com.sky.dto.ShequDetailDTO;
 import com.sky.dto.ShequUserDTO;

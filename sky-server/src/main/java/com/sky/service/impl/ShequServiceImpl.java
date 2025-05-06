@@ -1,6 +1,6 @@
 package com.sky.service.impl;
 
-import com.sky.context.BaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.dto.ShequDetailDTO;
 import com.sky.entity.Shequ;
 import com.sky.dto.ShequUserDTO;
@@ -24,14 +24,14 @@ public class ShequServiceImpl implements ShequService {
 
     @Override
     public void post(Shequ shequ) {
-        System.out.println(BaseContext.getCurrentId());
-        shequ.setUserid(BaseContext.getCurrentId());
+        System.out.println(UserBaseContext.getCurrentId());
+        shequ.setUserid(UserBaseContext.getCurrentId());
         shequMapper.insertShequ(shequ);
     }
 
     @Override
     public void like(Long shequId) {
-        Long userId = BaseContext.getCurrentId();
+        Long userId = UserBaseContext.getCurrentId();
 
         UserShe userShe = userSheMapper.getUserShe(userId, shequId);
         if (userShe == null) {

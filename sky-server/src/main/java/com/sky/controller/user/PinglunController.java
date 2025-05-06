@@ -1,6 +1,6 @@
 package com.sky.controller.user;
 
-import com.sky.context.BaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.dto.LikeRequestDTO;
 import com.sky.dto.PinglunDTO;
 import com.sky.dto.PinglunDetailDTO;
@@ -27,7 +27,7 @@ public class PinglunController {
     public Result<String> comment(@RequestBody PinglunDTO commentDTO) {
         try {
             // 获取当前用户ID，假设 BaseContext 是你的工具类
-            Long userId = BaseContext.getCurrentId();
+            Long userId = UserBaseContext.getCurrentId();
             System.out.println("userID::"+userId);
             // 调用 Service 层插入评论
             pinglunService.publishComment(commentDTO.getDetails(), commentDTO.getShequid(), userId);

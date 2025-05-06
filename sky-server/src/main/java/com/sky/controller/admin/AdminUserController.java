@@ -1,6 +1,5 @@
 package com.sky.controller.admin;
 
-import com.sky.context.BaseContext;
 import com.sky.entity.User;
 import com.sky.mapper.UserMapper;
 import io.swagger.annotations.Api;

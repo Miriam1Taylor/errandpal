@@ -1,6 +1,6 @@
 package com.sky.controller.user;
 
-import com.sky.context.BaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.dto.ZhuanyuanDTO;
 import com.sky.service.ZhuanyuanService;
 import io.swagger.annotations.Api;
@@ -23,7 +23,7 @@ public class UserZhuanyuanController {
     @DeleteMapping("/renzheng")
     public ResponseEntity<String> deleteZhuanyuan(Long id) {
         try {
-            id = BaseContext.getCurrentId();
+            id = UserBaseContext.getCurrentId();
             zhuanyuanService.renzheng(id);
             System.out.println(id);
             return ResponseEntity.ok("认证资料递交成功");
@@ -35,8 +35,7 @@ public class UserZhuanyuanController {
     @ApiOperation("专员账户余额查看/提现")
     @GetMapping("/list")
     public List<ZhuanyuanDTO> getZhuanyuanList(Long id) {
-        // 建议实际开发中从登录上下文获取当前用户ID，而非前端传userid
-        id = BaseContext.getCurrentId();
+        id = UserBaseContext.getCurrentId();
         return zhuanyuanService.getZhuanyuanByUserId(id);
     }
 }

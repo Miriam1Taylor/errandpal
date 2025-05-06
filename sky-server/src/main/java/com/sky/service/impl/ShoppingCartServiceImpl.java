@@ -1,6 +1,7 @@
 package com.sky.service.impl;
 
-import com.sky.context.BaseContext;
+//import com.sky.context.BaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.dto.ShoppingCartDTO;
 import com.sky.entity.Dish;
 import com.sky.entity.Setmeal;
@@ -38,7 +39,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
 
 //        只能查询自己的购物车数据
-        shoppingCart.setUserId(BaseContext.getCurrentId());
+        shoppingCart.setUserId(UserBaseContext.getCurrentId());
 
 //        判断当前商品是否在购物车中
         List<ShoppingCart> shoppingCartsList = shoppingCartMapper.list(shoppingCart);
@@ -76,7 +77,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
      */
     @Override
     public List<ShoppingCart> showShoppingCart() {
-        return shoppingCartMapper.list(ShoppingCart.builder().userId(BaseContext.getCurrentId()).build());
+        return shoppingCartMapper.list(ShoppingCart.builder().userId(UserBaseContext.getCurrentId()).build());
     }
 
     /**
@@ -84,7 +85,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
      */
     @Override
     public void cleanShoppingCart() {
-        shoppingCartMapper.deleteByUserId(BaseContext.getCurrentId());
+        shoppingCartMapper.deleteByUserId(UserBaseContext.getCurrentId());
     }
 
     /**
@@ -97,7 +98,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
 
 //        设置查询条件，查询当前登录用户的购物车数据
-        shoppingCart.setUserId(BaseContext.getCurrentId());
+        shoppingCart.setUserId(UserBaseContext.getCurrentId());
 
         List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
         if (list != null && list.size() > 0) {

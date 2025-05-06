@@ -1,7 +1,7 @@
 package com.sky.service;
 
 import com.sky.dto.PasswordEditDTO;
-import com.sky.context.BaseContext;
+import com.sky.context.AdminBaseContext;
 import com.sky.entity.Employee;
 import com.sky.mapper.EmployeeMapper;
 

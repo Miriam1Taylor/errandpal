@@ -1,6 +1,6 @@
 package com.sky.controller.user;
 
-import com.sky.context.BaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.dto.OrderCommentStatusDTO;
 import com.sky.entity.Comment;
 import com.sky.entity.Orders;
@@ -32,7 +32,7 @@ public class CommentController {
     @ApiOperation("添加评论")
     @PostMapping("/add")
     public Result<String> addComment(@RequestBody Comment comment) {
-        Long userId = BaseContext.getCurrentId(); // 获取当前用户ID
+        Long userId = UserBaseContext.getCurrentId(); // 获取当前用户ID
 
         // 根据订单ID获取评论状态
         OrderCommentStatusDTO dto = commentService.getCommentStatusByOrderId(comment.getOrderid());

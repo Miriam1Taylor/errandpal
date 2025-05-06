@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
-import com.sky.context.BaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.dto.*;
 import com.sky.entity.*;
 import com.sky.exception.AddressBookBusinessException;
@@ -86,8 +86,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 检查是否超出配送范围
         checkOutOfRange(addressBook.getCityName() + addressBook.getDistrictName() + addressBook.getDetail());
-
-        Long currentId = BaseContext.getCurrentId();
+        Long currentId = UserBaseContext.getCurrentId();
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUserId(currentId);
 
@@ -149,7 +148,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderPaymentVO payment(OrdersPaymentDTO ordersPaymentDTO) throws Exception {
 //        当前登录用户id
-        Long userId = BaseContext.getCurrentId();
+        Long userId = UserBaseContext.getCurrentId();
         User user = userMapper.getById(String.valueOf(userId));
 
         String orderNumber = ordersPaymentDTO.getOrderNumber();
@@ -204,7 +203,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void paySuccess(String outTradeNo) {
 //        当前登录用户id
-        Long userId = BaseContext.getCurrentId();
+        Long userId = UserBaseContext.getCurrentId();
 
 //        根据订单号查询当前用户的订单
         Orders orderDB = orderMapper.getByNumberAndUserId(outTradeNo, userId);
@@ -243,7 +242,7 @@ public class OrderServiceImpl implements OrderService {
 
         //封装所需的请求参数为DTO对象
         OrdersPageQueryDTO ordersPageQueryDTO = new OrdersPageQueryDTO();
-        ordersPageQueryDTO.setUserId(BaseContext.getCurrentId());
+        ordersPageQueryDTO.setUserId(UserBaseContext.getCurrentId());
         ordersPageQueryDTO.setStatus(status);
 
         // 分页条件查询
@@ -387,7 +386,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void repetition(Long id) {
 //        查询当前用户id
-        Long userId = BaseContext.getCurrentId();
+        Long userId = UserBaseContext.getCurrentId();
 
 //        根据订单id查询当前订单详情
         List<OrderDetail> orderDetailList = orderDetailMapper.getByOrderId(id);

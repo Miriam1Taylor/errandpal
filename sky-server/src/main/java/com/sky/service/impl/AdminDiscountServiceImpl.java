@@ -2,7 +2,7 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.sky.context.BaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.entity.Discount;
 import com.sky.entity.UserDisc;
 import com.sky.mapper.AdminDiscountMapper;
@@ -78,7 +78,7 @@ public class AdminDiscountServiceImpl implements AdminDiscountService {
     }
     @Override
     public boolean receiveUserDiscounts() {
-        Long userId = BaseContext.getCurrentId();
+        Long userId = UserBaseContext.getCurrentId();
         if (userId == null) {
             return false; // 防止空指针
         }

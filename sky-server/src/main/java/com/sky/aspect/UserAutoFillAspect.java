@@ -2,7 +2,8 @@ package com.sky.aspect;
 
 import com.sky.annotation.UserAutoFill;
 import com.sky.constant.AutoFillConstant;
-import com.sky.context.BaseContext;
+//import com.sky.context.BaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.enumeration.OperationType;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -65,7 +66,7 @@ public class UserAutoFillAspect {
 
 //        转变赋值的数据
         LocalDateTime now = LocalDateTime.now();
-        Long currentId = BaseContext.getCurrentId();
+        Long currentId = UserBaseContext.getCurrentId();
 // 获取所有方法名
 //        List<String> methodNames = Arrays.stream(entity.getClass().getDeclaredMethods())
 //                .map(Method::getName)

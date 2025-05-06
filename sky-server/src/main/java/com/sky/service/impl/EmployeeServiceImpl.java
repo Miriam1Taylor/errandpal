@@ -5,7 +5,8 @@ import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
-import com.sky.context.BaseContext;
+import com.sky.context.AdminBaseContext;
+//import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
@@ -119,7 +120,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdateTime(LocalDateTime.now());
 
 //        通过ThreadLocal获取用户信息
-        Long currentId = BaseContext.getCurrentId();
+        Long currentId = AdminBaseContext.getCurrentId();
 
         //设置当前记录创建人id和修改人id
         employee.setCreateUser(currentId);//目前写个假数据，后期修改
@@ -135,7 +136,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
-        Long id = BaseContext.getCurrentId();
+        Long id = AdminBaseContext.getCurrentId();
         String name = employeeMapper.getById(id).getName();
         if(id == 1){
             //        开始分页查询
@@ -195,7 +196,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         BeanUtils.copyProperties(employeeDTO, employee);
 
         employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(AdminBaseContext.getCurrentId());
         employeeMapper.update(employee);
     }
 

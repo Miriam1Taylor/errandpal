@@ -4,7 +4,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
-import com.sky.context.BaseContext;
+//import com.sky.context.BaseContext;
+import com.sky.context.AdminBaseContext;
+import com.sky.context.UserBaseContext;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Dish;
@@ -20,6 +22,7 @@ import com.sky.service.SetmealService;
 import com.sky.vo.DishItemVO;
 import com.sky.vo.SetmealVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.el.parser.AstMinus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -212,7 +215,9 @@ public class SetmealServiceImpl implements SetmealService {
     @Override
     public void addSetmeal(Setmeal setmeal) {
         setmeal.setCreateTime(LocalDateTime.now());
-        setmeal.setCreateUser(BaseContext.getCurrentId()); // 或者其他当前登录用户ID
+        // 管理端功能模块移交给用户端：投诉
+//        setmeal.setCreateUser(AdminBaseContext.getCurrentId());
+        setmeal.setCreateUser(UserBaseContext.getCurrentId()); // 或者其他当前登录用户ID
         setmealMapper.insertSetmeal(setmeal);
     }
 }

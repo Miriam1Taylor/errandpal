@@ -1,7 +1,7 @@
 package com.sky.controller.admin;
 
 import com.sky.constant.JwtClaimsConstant;
-import com.sky.context.BaseContext;
+import com.sky.context.AdminBaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
@@ -39,7 +39,7 @@ public class EmployeeController {
     @ApiOperation("获取当前员工id")
     @GetMapping("/getid")
     public Long getId() {
-        return BaseContext.getCurrentId();
+        return AdminBaseContext.getCurrentId();
     }
 
     /**
