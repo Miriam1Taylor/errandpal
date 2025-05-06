@@ -1,6 +1,7 @@
 package com.sky.mapper;
 
 import com.sky.dto.ZhuanyuanDTO;
+import com.sky.dto.ZhuanyuanRecommendDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -30,6 +31,14 @@ public interface ZhuanyuanMapper {
     // 更新 user 表中的 zystatus
     int updateZystatusTo2(@Param("id") Long id);
 
+    // 更新 user 表中的 zystatus
+    int updateZystatus2(Long id);
+
     // 删除 zhuanyuan 表中的记录
     int deleteById(Long id);
+
+    List<ZhuanyuanRecommendDTO> recommendZhuanyuanByDishTaste(Long userId);
+
+    @Select("SELECT id, active, judge, userid FROM zhuanyuan WHERE userid = #{userid}")
+    List<ZhuanyuanDTO> getByUserId(Long userid);
 }

@@ -18,9 +18,11 @@ import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 //import org.springframework.util.DigestUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -73,6 +75,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //3、返回实体对象
         return employee;
+    }
+    @ResponseStatus(HttpStatus.NOT_FOUND)  // 对应 404
+    public class AccountNotFoundException extends RuntimeException {
+        public AccountNotFoundException(String message) {
+            super(message);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)  // 对应 403
+    public class PasswordErrorException extends RuntimeException {
+        public PasswordErrorException(String message) {
+            super(message);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.LOCKED)  // 对应 423
+    public class AccountLockedException extends RuntimeException {
+        public AccountLockedException(String message) {
+            super(message);
+        }
     }
 
     /**

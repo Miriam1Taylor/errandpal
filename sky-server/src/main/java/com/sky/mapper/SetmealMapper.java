@@ -80,4 +80,6 @@ public interface SetmealMapper {
      * @return
      */
     Integer countByMap(Map map);
+
+    void insertSetmeal(Setmeal setmeal);
 }

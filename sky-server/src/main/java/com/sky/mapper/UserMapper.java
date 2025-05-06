@@ -1,6 +1,7 @@
 package com.sky.mapper;
 
 import com.sky.annotation.AutoFill;
+import com.sky.annotation.UserAutoFill;
 import com.sky.entity.User;
 import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,6 +16,7 @@ public interface UserMapper {
     int updateZyStatusById(@Param("id") Long id);
     int updateZyStatus2ById(@Param("id") Long id);
     int insertZhuanyuan(@Param("id") Long id);
+
     List<User> selectZhuanyuanUsers();
 
     // 根据姓名或电话模糊查询用户
@@ -46,4 +48,6 @@ public interface UserMapper {
      * @return
      */
     Integer countByMap(Map map);
+
+    int updateUserInfoByOpenid(User user);
 }

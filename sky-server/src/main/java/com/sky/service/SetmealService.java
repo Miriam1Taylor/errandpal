@@ -65,4 +65,6 @@ public interface SetmealService {
      * @return
      */
     List<DishItemVO> getDishItemById(Long id);
+
+    void addSetmeal(Setmeal setmeal);
 }

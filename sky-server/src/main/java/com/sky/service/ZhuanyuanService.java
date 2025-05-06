@@ -2,6 +2,7 @@ package com.sky.service;
 
 
 import com.sky.dto.RewardPunishDTO;
+import com.sky.dto.ZhuanyuanDTO;
 import com.sky.mapper.ZhuanyuanMapper;
 import com.sky.result.PageResult;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -21,5 +22,9 @@ public interface ZhuanyuanService{
     boolean deleteById(Long id);
 
     void deleteAndUpdateZystatus(Long id);
+
+    void renzheng(Long id);
+
+    List<ZhuanyuanDTO> getZhuanyuanByUserId(Long userid);
 }
 

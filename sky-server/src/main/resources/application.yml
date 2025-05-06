@@ -38,7 +38,6 @@ logging:
         mapper: debug
         service: info
         controller: info
-
 sky:
   jwt:
     # 设置jwt签名加密时使用的秘钥
@@ -56,6 +55,8 @@ sky:
     access-key-id: ${sky.alioss.access-key-id}
     access-key-secret: ${sky.alioss.access-key-secret}
     bucket-name: ${sky.alioss.bucket-name}
+  baidu:
+    ak: xEUl38WSFJaoeho5Z0GfrOu3EmPStQh7
   wechat:
     appid: ${sky.wechat.appid}
     secret: ${sky.wechat.secret}
@@ -68,5 +69,3 @@ sky:
     refundNotifyUrl: ${sky.wechat.refundNotifyUrl}
   shop:
     address: 浙江省宁波市鄞州区学府路1号
-  baidu:
-    ak: xEUl38WSFJaoeho5Z0GfrOu3EmPStQh7

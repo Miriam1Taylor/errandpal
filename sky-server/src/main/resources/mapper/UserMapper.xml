@@ -84,4 +84,16 @@
         </where>
     </select>
 
+<!--    个人资料完善-->
+    <update id="updateUserInfoByOpenid" parameterType="com.sky.entity.User">
+        UPDATE user
+        SET
+            name = #{name},
+            phone = #{phone},
+            sex = #{sex},
+            id_number = #{idNumber}
+        WHERE
+            openid = #{openid}
+    </update>
+
 </mapper>

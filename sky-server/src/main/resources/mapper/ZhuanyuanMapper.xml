@@ -51,6 +51,33 @@
 
     </update>
 
+    <!-- 推荐算法 -->
+    <select id="recommendZhuanyuanByDishTaste" resultType="com.sky.dto.ZhuanyuanRecommendDTO">
+        SELECT
+            o.zhuanyuanid AS zhuanyuanId,
+            u.name AS zhuanyuanName,
+            ROUND(SUM(o.judge) * 1.0 / COUNT(*), 2) AS weightedScore,
+            COUNT(*) AS orderCount
+        FROM orders o
+            JOIN order_detail od ON o.id = od.order_id
+            JOIN zhuanyuan z ON o.zhuanyuanid = z.id  -- 修正了这里的连接
+            JOIN user u ON z.userid = u.id
+        WHERE od.dish_id IN (
+            SELECT DISTINCT od2.dish_id
+            FROM orders o2
+                     JOIN order_detail od2 ON o2.id = od2.order_id
+            WHERE o2.user_id = #{userId}
+        )
+          AND o.user_id != #{userId}
+          AND o.judge IS NOT NULL
+        GROUP BY o.zhuanyuanid
+        HAVING weightedScore >= 3.5
+        ORDER BY weightedScore DESC, orderCount DESC
+            LIMIT 10
+    </select>
+
+
+
     <!-- 获取活跃度 -->
     <select id="getActive" resultType="int">
         SELECT
@@ -64,7 +91,6 @@
     <select id="getJudge" resultType="int">
         SELECT z.judge FROM zhuanyuan z WHERE id = #{id}
     </select>
-
 
 
     <delete id="deleteById" parameterType="java.lang.Long">
@@ -81,7 +107,15 @@
             WHERE id = #{id}
         )
     </update>
-
+    <!-- 通过 zhuanyuan 表的 id 更新 user 表中的 zystatus 为 2 -->
+    <update id="updateZystatus2">
+        UPDATE user
+        SET zystatus = 2
+        WHERE id = (
+            SELECT userid
+            FROM zhuanyuan
+            WHERE id = #{id}
+    </update>
 
 
     <!--    这边看错文件了，应该在setmeal文件里面，现在这个是专员的文件-->

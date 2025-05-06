@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.UserDiscountMapper">
+
+    <!--插入用户优惠券关联表-->
+    <insert id="batchInsert">
+        INSERT INTO userdisc (dis_id, userid, status)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.disId}, #{item.userid}, #{item.status})
+        </foreach>
+    </insert>
+
+<!--使用优惠券-->
+    <!-- 根据 ID 更新 userdisc 表 -->
+    <update id="updateUserDiscount" parameterType="map">
+        UPDATE userdisc
+        SET useat = #{now}, orderid = #{orderid}, status = 1
+        WHERE id = #{id} AND status = 0
+    </update>
+
+    <!--    定时更新优惠券status-->
+    <update id="updateExpiredCoupons" parameterType="java.time.LocalDateTime">
+        UPDATE userdisc ud
+        JOIN discount d ON ud.dis_id = d.id
+        SET ud.status = 2
+        <where>
+            ud.status = 0
+            AND !(d.endtime > #{now})
+        </where>
+    </update>
+
+    <update id="updateExpiredCoupons2" parameterType="java.time.LocalDateTime">
+        UPDATE userdisc ud
+        JOIN discount d ON ud.dis_id = d.id
+        SET ud.status = 0
+        <where>
+            ud.status = 2
+            AND d.endtime >= #{now}
+        </where>
+    </update>
+
+</mapper>

@@ -119,4 +119,10 @@
         </where>
     </select>
 
+    <insert id="insertSetmeal" parameterType="com.sky.entity.Setmeal" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO setmeal (category_id, name, description, image, userid, create_time, create_user)
+        VALUES (#{categoryId}, #{name}, #{description}, #{image}, #{userid}, NOW(), #{createUser})
+    </insert>
+
+
 </mapper>

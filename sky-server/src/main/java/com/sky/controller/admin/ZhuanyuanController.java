@@ -36,6 +36,7 @@ public class ZhuanyuanController {
         return Result.success(pageResult);
     }
 
+    @ApiOperation("删除专员")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteZhuanyuan(@PathVariable("id") Long id) {
         try {

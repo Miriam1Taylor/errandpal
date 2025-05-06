@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.PinglunMapper">
+
+    <!-- 插入评论 -->
+    <insert id="insert" parameterType="com.sky.entity.Pinglun">
+        INSERT INTO pinglun (details, shequid, userid, like_count)
+        VALUES (#{details}, #{shequid}, #{userid}, #{likeCount});
+    </insert>
+
+    <update id="likePinglun">
+        UPDATE pinglun SET like_count = like_count + 1 WHERE id = #{id}
+    </update>
+
+    <delete id="deletePinglun">
+        DELETE FROM pinglun WHERE id = #{id}
+    </delete>
+
+    <select id="getPinglunByShequId" resultType="com.sky.dto.PinglunDetailDTO">
+        SELECT
+            p.*,
+            u.name,
+            u.avatar
+        FROM
+            pinglun p
+                JOIN
+            user u ON p.userid = u.id
+        WHERE
+            p.shequid = #{shequId}
+    </select>
+
+</mapper>

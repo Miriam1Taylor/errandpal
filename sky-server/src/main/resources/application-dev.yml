@@ -14,7 +14,8 @@ sky:
     bucket-name: errandpal
   redis:
 #    host: 192.168.8.128
-
+#    赵哲婷
+#    Taylor Miriam
     host: 127.0.0.1
     port: 6379
     password: 123456
@@ -24,11 +25,11 @@ sky:
 #    secret: 7a354c0cab2186281c18839acf453e37
     appid: wxfd1bdcedd4b2940d
     secret: 4d8865844ed61de037f3ec2b1c82954a
-#    下面是预留微信支付实现需要的信息示例，暂未申请接口，需门店照片材料
+#    下面是预留微信支付实现需要的信息示例，暂未申请接口，需门店照片材料,但相关功能代码写好了
     mchid: 1561414331
-    mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
-    privateKeyFilePath: D:\apiclient_key.pem
+    mchSerialNo: 1324xxxxxxxxxxxxxxxxxxxxxx
+    privateKeyFilePath: E:\apiclient_key.pem
     apiV3Key: CZBK51236435wxpay435434323FFDuv3
-    weChatPayCertFilePath: D:\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
+    weChatPayCertFilePath: E:\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
     notifyUrl: https://www.weixin.qq.com/wxpay/pay.php
     refundNotifyUrl: https://www.weixin.qq.com/wxpay/pay.php

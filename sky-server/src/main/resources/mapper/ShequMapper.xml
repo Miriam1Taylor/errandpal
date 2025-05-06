@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.ShequMapper">
+
+    <insert id="insertShequ" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO shequ(title, details, userid)
+        VALUES(#{title}, #{details}, #{userid})
+    </insert>
+
+    <update id="likeShequ">
+        UPDATE shequ SET like_count = like_count + 1 WHERE id = #{id}
+    </update>
+
+    <delete id="deleteShequ">
+        DELETE FROM shequ WHERE id = #{id}
+    </delete>
+
+
+    <select id="getShequWithUserName" resultType="com.sky.dto.ShequUserDTO">
+        SELECT s.id, s.title, u.name
+        FROM shequ s
+                 JOIN user u ON s.userid = u.id
+    </select>
+
+    <select id="getShequDetailById" resultType="com.sky.dto.ShequDetailDTO">
+        SELECT
+            s.*,
+            u.name,
+            u.avatar
+        FROM
+            shequ s
+                JOIN
+            user u ON s.userid = u.id
+        WHERE
+            s.id = #{id}
+    </select>
+
+</mapper>

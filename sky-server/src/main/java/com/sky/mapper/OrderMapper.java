@@ -87,8 +87,12 @@ public interface OrderMapper {
      * @param orderStatus
      * @param orderPaidStatus
      */
-    @Update("update orders set status = #{orderStatus},pay_status #{orderPaidStatus},checkout_time = #{check_out_time}" +
+    @Update("update orders set status = #{orderStatus},pay_status = #{orderPaidStatus},checkout_time = #{check_out_time}" +
     "where number = #{orderNumber}")
 
     void updateStatus(Integer orderStatus, Integer orderPaidStatus, LocalDateTime check_out_time , String orderNumber);
+
+    // 设置订单的评论ID
+    @Update("UPDATE orders SET commentid = #{commentId} WHERE id = #{orderId}")
+    void updateCommentId(Long orderId, Long commentId);
 }

@@ -79,4 +79,12 @@ public class UserServiceImpl implements UserService {
         String openid = jsonObject.getString("openid");
         return openid;
     }
+
+
+    @Override
+    public boolean updateUserInfo(User user) {
+        int result = userMapper.updateUserInfoByOpenid(user);
+        return result > 0;
+    }
+
 }

@@ -10,4 +10,7 @@ public interface UserService {
      * @return
      */
     User wxLogin(UserLoginDTO userLoginDTO);
+
+    boolean updateUserInfo(User user);
+
 }

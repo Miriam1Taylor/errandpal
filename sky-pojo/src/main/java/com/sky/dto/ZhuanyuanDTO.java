@@ -2,7 +2,6 @@ package com.sky.dto;
 
 import lombok.Data;
 
-// src/main/java/com/yourpackage/dto/ZhuanyuanDTO.java
 @Data
 public class ZhuanyuanDTO {
     private Long id;
@@ -12,6 +11,9 @@ public class ZhuanyuanDTO {
     private String phone;
     private String idNumber;
     private String sex;
+    private Long userid;
+
+    private Double amount;
 
     // getters and setters
     public Long getId() {

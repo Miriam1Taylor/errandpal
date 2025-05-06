@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController("userSetmealController")
 @RequestMapping("/user/setmeal")
-@Api(tags = "C端-setmeal浏览接口(废除)")
+@Api(tags = "C端-去drop")
 public class SetmealController {
     @Autowired
     private SetmealService setmealService;
@@ -27,7 +27,7 @@ public class SetmealController {
      * @return
      */
     @GetMapping("/list")
-    @ApiOperation("根据分类id查询投诉记录")
+    @ApiOperation("根据分类id查询投诉记录 drop")
     @Cacheable(cacheNames = "setmealCache",key = "#categoryId")
     public Result<List<Setmeal>> list(Long categoryId) {
         Setmeal setmeal = new Setmeal();
@@ -45,10 +45,17 @@ public class SetmealController {
      * @return
      */
     @GetMapping("/dish/{id}")
-    @ApiOperation("根据投诉id查询包含的跑腿项目列表")
+    @ApiOperation("根据投诉id查询包含的跑腿项目列表drop")
     public Result<List<DishItemVO>> dishList(@PathVariable("id") Long id) {
         List<DishItemVO> list = setmealService.getDishItemById(id);
         return Result.success(list);
+    }
+    @ApiOperation("填写投诉、意见、反馈")
+    @PostMapping("/add")
+    public String addSetmeal(@RequestBody Setmeal setmeal) {
+        // 假设 userid 是前端带回的当前登录用户 ID
+        setmealService.addSetmeal(setmeal);
+        return "提交成功";
     }
 
 }

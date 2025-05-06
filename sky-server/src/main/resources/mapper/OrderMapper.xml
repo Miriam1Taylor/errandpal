@@ -6,10 +6,10 @@
         insert into orders
         (number, status, user_id, address_book_id, order_time, checkout_time, pay_method, pay_status, amount, remark,
          phone, address, consignee, estimated_delivery_time, delivery_status, pack_amount, tableware_number,
-         tableware_status)
+         tableware_status, image)
         values (#{number}, #{status}, #{userId}, #{addressBookId}, #{orderTime}, #{checkoutTime}, #{payMethod},
                 #{payStatus}, #{amount}, #{remark}, #{phone}, #{address}, #{consignee},
-                #{estimatedDeliveryTime}, #{deliveryStatus}, #{packAmount}, #{tablewareNumber}, #{tablewareStatus})
+                #{estimatedDeliveryTime}, #{deliveryStatus}, #{packAmount}, #{tablewareNumber}, #{tablewareStatus}, #{image})
     </insert>
 
 <!--    修改订单信息-->
@@ -39,6 +39,9 @@
             </if>
             <if test="deliveryTime != null">
                 delivery_time = #{deliveryTime}
+            </if>
+            <if test="image != null">
+                image = #{image}
             </if>
         </set>
         where id=#{id};
@@ -86,7 +89,8 @@
                consignee, cancel_reason as cancelReason, rejection_reason as rejectionReason,
                cancel_time as cancelTime, estimated_delivery_time as estimatedDeliveryTime,
                delivery_status as deliveryStatus, delivery_time as deliveryTime, pack_amount as packAmount,
-               tableware_number as tablewareNumber, tableware_status as tablewareStatus
+               tableware_number as tablewareNumber, tableware_status as tablewareStatus,
+               judge, zhuanyuanid, commentid, image
 
         from orders
         where id = #{id};
@@ -151,4 +155,7 @@
         order by number desc
         limit 0, 10
     </select>
+
+
 </mapper>
+

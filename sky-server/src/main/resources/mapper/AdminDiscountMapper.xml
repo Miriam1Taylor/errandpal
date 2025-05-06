@@ -5,8 +5,8 @@
 
     <!-- 插入批量折扣数据 -->
     <insert id="insertBatch">
-        insert into discount (name, count, iszy, starttime, endtime, status, createtime, updatetime)
-        values (#{name}, #{count}, #{iszy}, #{starttime}, #{endtime}, #{status}, #{createtime}, #{updatetime})
+        insert into discount (name, count, iszy, starttime, endtime, status, create_time, update_time)
+        values (#{name}, #{count}, #{iszy}, #{starttime}, #{endtime}, #{status}, #{createTime}, #{updateTime})
     </insert>
 
 <!--更新数据表-->
@@ -18,7 +18,8 @@
             iszy = #{iszy},
             starttime = #{starttime},
             endtime = #{endtime},
-            status = #{status}
+            status = #{status},
+            update_time = #{updateTime}
         WHERE id = #{id}
     </update>
 
@@ -38,7 +39,6 @@
     </select>
 
 
-
     <select id="getAll" resultType="com.sky.entity.Discount">
         select *
         from discount
@@ -52,6 +52,31 @@
         </where>
         order by id asc
     </select>
+
+<!--判断当前登录用户是不是专员-->
+    <select id="getZyStatusById" resultType="java.lang.Integer">
+        SELECT zystatus FROM user WHERE id = #{userId}
+    </select>
+
+
+<!--    根据优惠券是否专属类型查询-->
+    <select id="getValidDiscounts" resultType="com.sky.entity.Discount">
+        SELECT * FROM discount
+        <where>
+            status = 1
+            AND endtime > #{now}
+
+            <if test="onlyIszy != null">
+                AND iszy = #{onlyIszy}
+            </if>
+
+            <if test="includeIszy != null">
+                AND iszy IN (0, 1)
+            </if>
+        </where>
+        ORDER BY id ASC
+    </select>
+
 
 
 </mapper>

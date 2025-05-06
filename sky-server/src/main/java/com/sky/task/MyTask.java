@@ -12,7 +12,6 @@ import java.util.Date;
 @Component
 @Slf4j
 public class MyTask {
-
     /**
      * 定时任务 每隔5秒触发一次
      */

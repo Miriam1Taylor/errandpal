@@ -31,14 +31,30 @@ public class OrderController {
      * @param ordersSubmitDTO
      * @return
      */
+
+
     @PostMapping("/submit")
     @ApiOperation("用户下单")
+    //    public Result<OrderSubmitVO> submit(OrdersSubmitDTO ordersSubmitDTO) {
     public Result<OrderSubmitVO> submit(@RequestBody OrdersSubmitDTO ordersSubmitDTO) {
         log.info("用户下单：{}", ordersSubmitDTO);
         OrderSubmitVO orderSubmitVO = orderService.submitOrder(ordersSubmitDTO);
         return Result.success(orderSubmitVO);
     }
-
+    /**
+     * 可接订单查询
+     *
+     * @param page
+     * @param pageSize
+     * @param status   订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
+     * @return
+     */
+    @GetMapping("/acceptOrders")
+    @ApiOperation("可接订单查询")
+    public Result<PageResult> accpetpage(int page, int pageSize, Integer status) {
+        PageResult pageResult = orderService.accept4User(page, pageSize, 2);
+        return Result.success(pageResult);
+    }
     /**
      * 订单支付
      *
@@ -69,6 +85,8 @@ public class OrderController {
         return Result.success(pageResult);
     }
 
+
+
     /**
      * 查询订单详情
      * @param id
@@ -88,7 +106,7 @@ public class OrderController {
      */
     @PutMapping("/cancel/{id}")
     @ApiOperation("用户取消订单")
-    public Result cancel(@PathVariable Long id) throws Exception {
+    public Result cancel(@PathVariable("id") Long id) throws Exception {
         orderService.userCancelById(id);
         return Result.success();
     }

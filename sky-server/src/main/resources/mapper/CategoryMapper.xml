@@ -69,6 +69,7 @@
 
     <select id="list" resultType="Category">
         select * from category
+--         这个是用在用户端的，不需要status
         <if test="status != null">
             and status = #{status}
         </if>

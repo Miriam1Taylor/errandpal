@@ -79,4 +79,21 @@ public class ZhuanyuanServiceImpl implements ZhuanyuanService {
         // 然后删除 zhuanyuan 表的记录
         deleteById(id);
     }
+
+    @Override
+    public void renzheng(Long id) {
+        // 更新 user 表
+        zhuanyuanMapper.updateZystatus2(id);
+    }
+
+    @Override
+    public List<ZhuanyuanDTO> getZhuanyuanByUserId(Long userid) {
+        List<ZhuanyuanDTO> list = zhuanyuanMapper.getByUserId(userid);
+        for (ZhuanyuanDTO z : list) {
+            int active = z.getActive() != null ? z.getActive() : 0;
+            int judge = z.getJudge() != null ? z.getJudge() : 0;
+            z.setAmount((active + judge) / 10.0);
+        }
+        return list;
+    }
 }

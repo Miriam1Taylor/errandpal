@@ -107,4 +107,12 @@ public class Orders implements Serializable {
 
     //餐具数量状态  1按餐量提供  0选择具体数量
     private Integer tablewareStatus;
+
+    private Integer judge;
+
+    private Integer zhuanyuanid;
+
+    private Integer commentid;
+
+    private String image;
 }

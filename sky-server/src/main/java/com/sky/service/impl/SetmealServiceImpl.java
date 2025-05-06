@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Dish;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -205,5 +207,12 @@ public class SetmealServiceImpl implements SetmealService {
     @Override
     public List<DishItemVO> getDishItemById(Long id) {
         return setmealMapper.getDishItemBySetmealId(id);
+    }
+
+    @Override
+    public void addSetmeal(Setmeal setmeal) {
+        setmeal.setCreateTime(LocalDateTime.now());
+        setmeal.setCreateUser(BaseContext.getCurrentId()); // 或者其他当前登录用户ID
+        setmealMapper.insertSetmeal(setmeal);
     }
 }

@@ -36,7 +36,7 @@ public class EmployeeController {
     @Autowired
     private JwtProperties jwtProperties;
 
-
+    @ApiOperation("获取当前员工id")
     @GetMapping("/getid")
     public Long getId() {
         return BaseContext.getCurrentId();
@@ -48,6 +48,7 @@ public class EmployeeController {
      * @param employeeLoginDTO
      * @return
      */
+    @ApiOperation("登录login")
     @PostMapping("/login")
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
         log.info("员工登录：{}", employeeLoginDTO);
@@ -77,6 +78,7 @@ public class EmployeeController {
      *
      * @return
      */
+    @ApiOperation("登出logout")
     @PostMapping("/logout")
     public Result<String> logout() {
         return Result.success();
