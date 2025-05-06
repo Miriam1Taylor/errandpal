@@ -28,7 +28,6 @@ public class ShequController {
         return Result.success("帖子发布成功");
     }
 
-
     @ApiOperation("帖子点赞")
     @PostMapping("/like")
     public Result<String> like(@RequestBody LikeRequestDTO dto) {
