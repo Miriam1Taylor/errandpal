@@ -43,8 +43,8 @@ public class ShequController {
 
     @ApiOperation("删除帖子")
     @DeleteMapping("/delete")
-    public Result<String> delete(@RequestParam Integer id) {
-        shequService.delete(id);
+    public Result<String> delete(@RequestBody Shequ shequ) {
+        shequService.delete(shequ.getId());
         return Result.success("帖子删除成功");
     }
 

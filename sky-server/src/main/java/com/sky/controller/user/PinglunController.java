@@ -53,9 +53,9 @@ public class PinglunController {
 
     @ApiOperation("删除评论")
     @DeleteMapping("/delete")
-    public Result<String> delete(@RequestBody Integer id) {
+    public Result<String> delete(@RequestBody Pinglun pinglun) {
         try {
-            pinglunService.delete(id);
+            pinglunService.delete(pinglun.getId());
             return Result.success("评论删除成功");
         } catch (Exception e) {
             e.printStackTrace();
