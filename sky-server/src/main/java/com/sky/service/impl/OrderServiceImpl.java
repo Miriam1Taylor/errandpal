@@ -408,6 +408,8 @@ public class OrderServiceImpl implements OrderService {
         if (orderDB.getStatus().equals(Orders.DELIVERY_IN_PROGRESS)) {
 //            支付状态修改为 已完成
             orders.setPayStatus(Orders.COMPLETED);
+
+
         }
 
 //        更新订单状态
