@@ -8,6 +8,20 @@
         values (#{name}, #{image}, #{userId}, #{dishId}, #{setmealId}, #{dishFlavor}, #{amount}, #{createTime});
     </insert>
 
+    <update id="update">
+        update shopping_cart
+        set name = #{name},
+            image = #{image},
+            user_id = #{userId},
+            dish_id = #{dishId},
+            setmeal_id = #{setmealId},
+            dish_flavor = #{dishFlavor},
+            amount = #{amount},
+            create_time = #{createTime}
+        where id = #{id};
+    </update>
+
+
 <!--    将购物车对象批量添加到购物车-->
     <insert id="insertBatch">
         insert into shopping_cart (name, image, user_id, dish_id, setmeal_id, dish_flavor, amount, create_time)
@@ -20,7 +34,7 @@
     <!--    更新商品数量-->
     <update id="updateNumberById">
         update shopping_cart
-        set amount = #{amount}
+        set number = #{number}
         where id=#{id};
     </update>
 <!--    清空购物车商品-->

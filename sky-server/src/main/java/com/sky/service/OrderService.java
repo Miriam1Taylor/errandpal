@@ -40,6 +40,16 @@ public interface OrderService {
     PageResult pageQuery4User(int page, int pageSize, Integer status);
 
     /**
+     * 用户接取订单分页查询
+     * @param page
+     * @param pageSize
+     * @param status
+     * @return
+     */
+    PageResult pageQuery4Zhuhanyuan(int page, int pageSize, Integer status);
+
+
+    /**
      * 用户端订单分页查询
      * @param page
      * @param pageSize
@@ -47,6 +57,12 @@ public interface OrderService {
      * @return
      */
     PageResult accept4User(int page, int pageSize, Integer status);
+
+    /**
+     * 再来一单
+     * @param id
+     */
+    void accept4Zhuanyuan(Long id);
 
     /**
      * 查询订单详情

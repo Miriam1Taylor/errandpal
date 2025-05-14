@@ -29,6 +29,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import com.sky.service.CommentService;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -38,6 +40,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.lang.Long;
 
 @Service
 @Slf4j
@@ -54,6 +57,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private AddressBookMapper addressBookMapper;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Autowired
     private UserMapper userMapper;
@@ -237,37 +246,84 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public PageResult pageQuery4User(int pageNum, int pageSize, Integer status) {
-        //需要在查询功能之前开启分页功能：当前页的页码   每页显示的条数
         PageHelper.startPage(pageNum, pageSize);
 
-        //封装所需的请求参数为DTO对象
         OrdersPageQueryDTO ordersPageQueryDTO = new OrdersPageQueryDTO();
         ordersPageQueryDTO.setUserId(UserBaseContext.getCurrentId());
         ordersPageQueryDTO.setStatus(status);
 
-        // 分页条件查询
+
         Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
+        List<OrderVO> list = new ArrayList<>();
 
-        //由接口可知需要封装为orderVO类型：订单菜品信息orderDishes，订单详情orderDetailList
-        List<OrderVO> list = new ArrayList();
-
-        // 查询出订单明细，并封装入OrderVO进行响应
-        if (page != null && page.getTotal() > 0) { //有订单才有必要接着查询订单详情信息
+        if (page != null && page.getTotal() > 0) {
             for (Orders orders : page) {
-                Long orderId = orders.getId();// 订单id
+                Long orderId = orders.getId();
 
-                // 根据订单id,查询订单明细
                 List<OrderDetail> orderDetails = orderDetailMapper.getByOrderId(orderId);
+                
+                OrderCommentStatusDTO commentStatusDTO = commentMapper.selectOrderCommentStatusById(orderId);
+                String commentStatus = (commentStatusDTO != null) ? commentStatusDTO.getCommentStatus() : "暂未评论";
+
 
                 OrderVO orderVO = new OrderVO();
                 BeanUtils.copyProperties(orders, orderVO);
                 orderVO.setOrderDetailList(orderDetails);
+                orderVO.setCommentStatus(commentStatus); // ✅ 设置评论状态
 
                 list.add(orderVO);
             }
         }
+
         return new PageResult(page.getTotal(), list);
     }
+
+    /**
+     * 用户端专员接取订单分页查询
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @return
+     */
+    @Override
+    public PageResult pageQuery4Zhuhanyuan(int pageNum, int pageSize, Integer status) {
+        Long zhuanyuanId = orderMapper.getZhuanyuanIdByUserId(UserBaseContext.getCurrentId());
+        if (zhuanyuanId == null) {
+            return new PageResult(0L, new ArrayList<>());
+        }
+
+        OrdersPageQueryDTO ordersPageQueryDTO = new OrdersPageQueryDTO();
+        ordersPageQueryDTO.setPage(pageNum);
+        ordersPageQueryDTO.setPageSize(pageSize);
+        ordersPageQueryDTO.setZhuanyuanId(zhuanyuanId);
+        ordersPageQueryDTO.setStatus(status);
+
+        // ✅ PageHelper.startPage 必须紧贴 pageQuery() 调用
+//        PageHelper.startPage() 只对紧随其后的第一个 select 语句生效。
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO); // ✅ 第一个 select，这里才生效
+
+        List<OrderVO> list = new ArrayList<>();
+        if (page != null && page.getTotal() > 0) {
+            for (Orders orders : page) {
+                Long orderId = orders.getId();
+                List<OrderDetail> orderDetails = orderDetailMapper.getByOrderId(orderId);
+                OrderCommentStatusDTO commentStatusDTO = commentMapper.selectOrderCommentStatusById(orderId);
+                String commentStatus = (commentStatusDTO != null) ? commentStatusDTO.getCommentStatus() : "暂未评论";
+
+                OrderVO orderVO = new OrderVO();
+                BeanUtils.copyProperties(orders, orderVO);
+                orderVO.setOrderDetailList(orderDetails);
+                orderVO.setCommentStatus(commentStatus);
+                list.add(orderVO);
+            }
+        }
+
+        return new PageResult(page.getTotal(), list);
+    }
+
+
 
     /**
      * 用户端可接订单分页查询
@@ -279,15 +335,21 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public PageResult accept4User(int pageNum, int pageSize, Integer status) {
-        //需要在查询功能之前开启分页功能：当前页的页码   每页显示的条数
-        PageHelper.startPage(pageNum, pageSize);
 
         //封装所需的请求参数为DTO对象
         OrdersPageQueryDTO ordersPageQueryDTO = new OrdersPageQueryDTO();
+        ordersPageQueryDTO.setPage(pageNum);
+        ordersPageQueryDTO.setPageSize(pageSize);
         ordersPageQueryDTO.setStatus(status);
 
+        System.out.println(ordersPageQueryDTO);
+
+        //需要在查询功能之前开启分页功能：当前页的页码   每页显示的条数
+        PageHelper.startPage(pageNum, pageSize);
         // 分页条件查询
         Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
+        System.out.println(page.getTotal());
+        System.out.println(page.getResult().size());
 
         //由接口可知需要封装为orderVO类型：订单菜品信息orderDishes，订单详情orderDetailList
         List<OrderVO> list = new ArrayList();
@@ -309,6 +371,49 @@ public class OrderServiceImpl implements OrderService {
         }
         return new PageResult(page.getTotal(), list);
     }
+
+    /**
+     * 再来一单
+     * @param id
+     */
+    @Override
+    public void accept4Zhuanyuan(Long id) {
+//        根据id查询订单
+        Orders orderDB = orderMapper.getById(id);
+//        校验订单是否存在
+        if (orderDB == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+//      订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
+        if (orderDB.getStatus() > 2) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        Orders orders = new Orders();
+        orders.setId(orderDB.getId());
+
+//        订单处于待接单的状态下接取
+        if (orderDB.getStatus().equals(Orders.TO_BE_CONFIRMED)) {
+//            支付状态修改为 已接单
+            orders.setPayStatus(Orders.CONFIRMED);
+        }
+
+//        订单处于已接单的状态下接取
+        if (orderDB.getStatus().equals(Orders.CONFIRMED)) {
+//            支付状态修改为 派送中
+            orders.setPayStatus(Orders.DELIVERY_IN_PROGRESS);
+        }
+
+        //        订单处于已接单的状态下接取
+        if (orderDB.getStatus().equals(Orders.DELIVERY_IN_PROGRESS)) {
+//            支付状态修改为 已完成
+            orders.setPayStatus(Orders.COMPLETED);
+        }
+
+//        更新订单状态
+        orderMapper.update(orders);
+    }
+
     /**
      * 查询订单详情
      * @param id
@@ -316,19 +421,21 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderVO details(Long id) {
-        //TODO查不到订单，，，，接口参数前面忘记加@PathVariable了。。。。。
-//        id = 1L;
-        System.out.println("查询订单详情id:"+ id);
 //        根据id查询订单
         Orders orders = orderMapper.getById(id);
 
 //        查询该订单对应的菜品/套餐明细
         List<OrderDetail> orderDetailList = orderDetailMapper.getByOrderId(id);
 
+        // 3. 查询评论状态
+        OrderCommentStatusDTO commentStatusDTO = commentMapper.selectOrderCommentStatusById(id);
+        String commentStatus = (commentStatusDTO != null) ? commentStatusDTO.getCommentStatus() : "暂未评论";
+
 //        将订单及其详情封装到OrderVo并返回
         OrderVO orderVO = new OrderVO();
         BeanUtils.copyProperties(orders, orderVO);
         orderVO.setOrderDetailList(orderDetailList);
+        orderVO.setCommentStatus(commentStatus); // ✅ 设置评论状态，我的精神状态be like😂😊🤣🤣😋🥲🥲🥲
 
         return orderVO;
     }
@@ -564,7 +671,6 @@ public class OrderServiceImpl implements OrderService {
     public void complete(Long id) {
 //        根据id查询订单
         Orders orderDB = orderMapper.getById(id);
-
 
 //        校验订单是否存在，并且状态为4
         if (orderDB == null || !orderDB.getStatus().equals(Orders.DELIVERY_IN_PROGRESS)) {

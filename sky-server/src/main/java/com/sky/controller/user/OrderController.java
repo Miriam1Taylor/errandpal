@@ -1,7 +1,9 @@
 package com.sky.controller.user;
 
+import com.sky.dto.OrderCommentStatusDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
+import com.sky.entity.Orders;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
@@ -49,11 +51,23 @@ public class OrderController {
      * @param status   订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
      * @return
      */
-    @GetMapping("/acceptOrders")
+    @GetMapping("/queryAccepts")
     @ApiOperation("可接订单查询")
     public Result<PageResult> accpetpage(int page, int pageSize, Integer status) {
         PageResult pageResult = orderService.accept4User(page, pageSize, 2);
         return Result.success(pageResult);
+    }
+
+    /**
+     * 再来一单
+     * @param id
+     * @return
+     */
+    @PostMapping("/acceptOrders/{id}")
+    @ApiOperation("专员接取、派送、完成订单")
+    public Result<String> accept(@PathVariable Long id) {
+        orderService.accept4Zhuanyuan(id);
+        return Result.success("操作成功");
     }
     /**
      * 订单支付
@@ -85,7 +99,20 @@ public class OrderController {
         return Result.success(pageResult);
     }
 
-
+    /**
+     * 接单查询
+     *
+     * @param page
+     * @param pageSize
+     * @param status   订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
+     * @return
+     */
+    @GetMapping("/historyPickedOrders")
+    @ApiOperation("历史接取订单查询")
+    public Result<PageResult> historyPickedOrders(int page, int pageSize, Integer status) {
+        PageResult pageResult = orderService.pageQuery4Zhuhanyuan(page, pageSize, status);
+        return Result.success(pageResult);
+    }
 
     /**
      * 查询订单详情

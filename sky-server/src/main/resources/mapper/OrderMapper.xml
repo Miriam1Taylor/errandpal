@@ -6,10 +6,10 @@
         insert into orders
         (number, status, user_id, address_book_id, order_time, checkout_time, pay_method, pay_status, amount, remark,
          phone, address, consignee, estimated_delivery_time, delivery_status, pack_amount, tableware_number,
-         tableware_status, image)
+         tableware_status)
         values (#{number}, #{status}, #{userId}, #{addressBookId}, #{orderTime}, #{checkoutTime}, #{payMethod},
                 #{payStatus}, #{amount}, #{remark}, #{phone}, #{address}, #{consignee},
-                #{estimatedDeliveryTime}, #{deliveryStatus}, #{packAmount}, #{tablewareNumber}, #{tablewareStatus}, #{image})
+                #{estimatedDeliveryTime}, #{deliveryStatus}, #{packAmount}, #{tablewareNumber}, #{tablewareStatus})
     </insert>
 
 <!--    修改订单信息-->
@@ -40,9 +40,6 @@
             <if test="deliveryTime != null">
                 delivery_time = #{deliveryTime}
             </if>
-            <if test="image != null">
-                image = #{image}
-            </if>
         </set>
         where id=#{id};
     </update>
@@ -55,7 +52,7 @@
           and user_id = #{userId};
     </select>
 
-    <select id="pageQuery" resultType="Orders">
+    <select id="pageQuery" resultType="com.sky.entity.Orders">
         select * from orders
         <where>
             <if test="number != null and number!=''">
@@ -76,10 +73,19 @@
             <if test="endTime != null">
                 and order_time &lt;= #{endTime}
             </if>
+            <if test="zhuanyuanId != null">
+                and zhuanyuanid = #{zhuanyuanId}
+            </if>
         </where>
         order by order_time desc
     </select>
 
+    <!-- 方式1：传入 orders 的 user_id 作为参数 -->
+    <select id="getZhuanyuanIdByUserId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT id
+            FROM zhuanyuan
+            WHERE userid = #{userId}
+</select>
 
 <!--    根据id查询订单-->
     <select id="getById" resultType="com.sky.entity.Orders">
@@ -90,7 +96,7 @@
                cancel_time as cancelTime, estimated_delivery_time as estimatedDeliveryTime,
                delivery_status as deliveryStatus, delivery_time as deliveryTime, pack_amount as packAmount,
                tableware_number as tablewareNumber, tableware_status as tablewareStatus,
-               judge, zhuanyuanid, commentid, image
+               judge, zhuanyuanid, commentid
 
         from orders
         where id = #{id};
@@ -155,6 +161,20 @@
         order by number desc
         limit 0, 10
     </select>
+
+    <!-- OrderMapper.xml -->
+    <update id="updateOrderComment">
+        UPDATE orders
+        SET commentid = #{id} ,
+          judge = #{judge}
+        WHERE id = #{orderid}
+    </update>
+
+    <update id="updateZhuanyuanJudge">
+        UPDATE zhuanyuan
+        SET judge = judge + #{judge}
+        WHERE id = (SELECT zhuanyuanid FROM orders WHERE id = #{orderid})
+    </update>
 
 </mapper>
 

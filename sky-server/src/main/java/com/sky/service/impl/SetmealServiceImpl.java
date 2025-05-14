@@ -45,18 +45,18 @@ public class SetmealServiceImpl implements SetmealService {
 
 
     @Override
-    public void updateStatusTo1(Long id) {
-        setmealMapper.updateStatusTo1(id);
+    public void updateStatusTo1(Setmeal setmeal) {
+        setmealMapper.updateStatusTo1(setmeal);
     }
 
     @Override
-    public void updateStatusTo2(Long id) {
-        setmealMapper.updateStatusTo2(id);
+    public void updateStatusTo2(Setmeal setmeal) {
+        setmealMapper.updateStatusTo2(setmeal);
     }
 
     @Override
-    public void updateStatusTo0(Long id) {
-        setmealMapper.updateStatusTo0(id);
+    public void updateStatusTo0(Setmeal setmeal) {
+        setmealMapper.updateStatusTo0(setmeal);
     }
 
 
@@ -104,12 +104,12 @@ public class SetmealServiceImpl implements SetmealService {
     @Override
     public void deleteBatch(List<Long> ids) {
 //        起售中的套餐不能删除
-        ids.forEach(id->{
-            Setmeal setmeal = setmealMapper.getById(id);
-            if (StatusConstant.ENABLE == setmeal.getStatus()) {
-                throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ON_SALE);
-            }
-        });
+//        ids.forEach(id->{
+//            Setmeal setmeal = setmealMapper.getById(id);
+//            if (StatusConstant.ENABLE == setmeal.getStatus()) {
+//                throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ON_SALE);
+//            }
+//        });
 
         ids.forEach(id->{
 //            删除套餐表中的数据

@@ -2,9 +2,9 @@ package com.sky.controller.user;
 
 import com.sky.constant.StatusConstant;
 import com.sky.entity.Setmeal;
-import com.sky.result.Result;
 import com.sky.service.SetmealService;
 import com.sky.vo.DishItemVO;
+import com.sky.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,18 @@ import java.util.List;
 
 @RestController("userSetmealController")
 @RequestMapping("/user/setmeal")
-@Api(tags = "C端-去drop")
+@Api(tags = "C端-投诉意见反馈")
 public class SetmealController {
     @Autowired
     private SetmealService setmealService;
+
+    @ApiOperation("填写投诉、意见、反馈")
+    @PostMapping("/add")
+    public Result<String> addSetmeal(@RequestBody Setmeal setmeal) {
+        setmealService.addSetmeal(setmeal);
+        return Result.success("提交成功");
+    }
+
 
     /**
      * 条件查询
@@ -27,7 +35,7 @@ public class SetmealController {
      * @return
      */
     @GetMapping("/list")
-    @ApiOperation("根据分类id查询投诉记录 drop")
+    @ApiOperation("drop 根据分类id查询投诉记录")
     @Cacheable(cacheNames = "setmealCache",key = "#categoryId")
     public Result<List<Setmeal>> list(Long categoryId) {
         Setmeal setmeal = new Setmeal();
@@ -45,17 +53,11 @@ public class SetmealController {
      * @return
      */
     @GetMapping("/dish/{id}")
-    @ApiOperation("根据投诉id查询包含的跑腿项目列表drop")
+    @ApiOperation("drop 根据投诉id查询包含的跑腿项目列表")
     public Result<List<DishItemVO>> dishList(@PathVariable("id") Long id) {
         List<DishItemVO> list = setmealService.getDishItemById(id);
         return Result.success(list);
     }
-    @ApiOperation("填写投诉、意见、反馈")
-    @PostMapping("/add")
-    public String addSetmeal(@RequestBody Setmeal setmeal) {
-        // 假设 userid 是前端带回的当前登录用户 ID
-        setmealService.addSetmeal(setmeal);
-        return "提交成功";
-    }
+
 
 }

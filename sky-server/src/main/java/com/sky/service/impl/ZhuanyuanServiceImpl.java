@@ -33,7 +33,6 @@ public class ZhuanyuanServiceImpl implements ZhuanyuanService {
     public void addReward(RewardPunishDTO dto) {
         Long id = dto.getId();
 //        System.out.println(id);
-
         int ac = dto.getActivity();
         int ev = dto.getEvaluation();
 
@@ -95,5 +94,11 @@ public class ZhuanyuanServiceImpl implements ZhuanyuanService {
             z.setAmount((active + judge) / 10.0);
         }
         return list;
+    }
+
+    @Override
+    public void withdrawById(Long id) {
+        // Call the mapper's withdraw method to perform the update operation
+        zhuanyuanMapper.withdraw(id);
     }
 }

@@ -5,6 +5,7 @@ import com.sky.dto.GoodsSalesDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 
@@ -39,6 +40,8 @@ public interface OrderMapper {
      * @param ordersPageQueryDTO
      */
     Page<Orders> pageQuery(OrdersPageQueryDTO ordersPageQueryDTO);
+
+    Long getZhuanyuanIdByUserId(Long userId);
 
     /**
      * 根据id查询订单
@@ -87,12 +90,25 @@ public interface OrderMapper {
      * @param orderStatus
      * @param orderPaidStatus
      */
-    @Update("update orders set status = #{orderStatus},pay_status = #{orderPaidStatus},checkout_time = #{check_out_time}" +
+    @Update("update orders set status = 2 ,pay_status = #{orderPaidStatus},checkout_time = #{check_out_time}" +
     "where number = #{orderNumber}")
-
     void updateStatus(Integer orderStatus, Integer orderPaidStatus, LocalDateTime check_out_time , String orderNumber);
+//    void updateStatus(Integer orderStatus, Integer orderPaidStatus, LocalDateTime check_out_time , Long id);
 
-    // 设置订单的评论ID
-    @Update("UPDATE orders SET commentid = #{commentId} WHERE id = #{orderId}")
-    void updateCommentId(Long orderId, Long commentId);
+    /**
+     * 更新 orders 表中的 commentid 和 judge 字段
+     * @param id 评论ID
+     * @param orderid 订单ID
+     */
+    void updateOrderComment(@Param("id") Long id,
+                            @Param("judge") int judge,
+                            @Param("orderid") Long orderid);
+
+    /**
+     * 更新 zhuanyuan 表中的 judge 字段，根据订单中的 zhuanyuanid
+     * @param judge 审核状态
+     * @param orderid 订单ID
+     */
+    void updateZhuanyuanJudge(@Param("judge") int judge,
+                              @Param("orderid") Long orderid);
 }

@@ -31,23 +31,24 @@ public class PinglunServiceImpl implements PinglunService {
     }
 
     @Override
-    public void like(Long pinglunId) {
+    public int like(Long pinglunId) {
         Long userId = UserBaseContext.getCurrentId();
-
         UserPing userPing = userPingMapper.getUserPing(userId, pinglunId);
         if (userPing == null) {
             // 没有记录，插入 isliked = 1，like_count + 1
             userPingMapper.insertUserPing(userId, pinglunId,1);
             pinglunMapper.incrementLikeCount(pinglunId);
+            return 1;
         } else if (userPing.getIsliked() == 0) {
             userPingMapper.updateUserPing(userId, pinglunId, 1);
             pinglunMapper.incrementLikeCount(pinglunId);
+            return 1;
         } else {
             userPingMapper.updateUserPing(userId, pinglunId, 0);
             pinglunMapper.decrementLikeCount(pinglunId);
+            return 0;
         }
     }
-
     @Override
     public void delete(Integer id) {
         pinglunMapper.deletePinglun(id);

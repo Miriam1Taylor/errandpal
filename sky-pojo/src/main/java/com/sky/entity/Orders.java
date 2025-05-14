@@ -110,9 +110,8 @@ public class Orders implements Serializable {
 
     private Integer judge;
 
-    private Integer zhuanyuanid;
+    private Long zhuanyuanId;
 
     private Integer commentid;
 
-    private String image;
 }

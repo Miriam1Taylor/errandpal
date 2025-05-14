@@ -13,6 +13,13 @@
         <result property="judge" column="judge"/>
     </resultMap>
 
+    <update id="withdraw" parameterType="Long">
+        UPDATE zhuanyuan
+        SET judge = 0, active = 0
+        WHERE userid = #{id}
+    </update>
+
+
     <select id="list" resultMap="ZhuanyuanResultMap">
         SELECT
         z.id,u.name, u.phone, u.id_number, u.sex,
@@ -56,6 +63,7 @@
         SELECT
             o.zhuanyuanid AS zhuanyuanId,
             u.name AS zhuanyuanName,
+            u.avatar,
             ROUND(SUM(o.judge) * 1.0 / COUNT(*), 2) AS weightedScore,
             COUNT(*) AS orderCount
         FROM orders o
@@ -111,10 +119,7 @@
     <update id="updateZystatus2">
         UPDATE user
         SET zystatus = 2
-        WHERE id = (
-            SELECT userid
-            FROM zhuanyuan
-            WHERE id = #{id}
+        WHERE id = #{id}
     </update>
 
 

@@ -49,5 +49,7 @@ public interface UserMapper {
      */
     Integer countByMap(Map map);
 
-    int updateUserInfoByOpenid(User user);
+    int updateUserInfoByid(User user);
+
+    User getUserInfoByid(Long id);
 }

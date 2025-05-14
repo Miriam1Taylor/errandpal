@@ -2,6 +2,7 @@ package com.sky.controller.user;
 
 import com.sky.context.UserBaseContext;
 import com.sky.dto.LikeRequestDTO;
+import com.sky.dto.LikeResponseDTO;
 import com.sky.dto.ShequDetailDTO;
 import com.sky.dto.ShequUserDTO;
 import com.sky.entity.Shequ;
@@ -30,16 +31,16 @@ public class ShequController {
 
     @ApiOperation("帖子点赞")
     @PostMapping("/like")
-    public Result<String> like(@RequestBody LikeRequestDTO dto) {
+    public Result<LikeResponseDTO> like(@RequestBody LikeRequestDTO dto) {
         try {
-            shequService.like(dto.getId());
-            return Result.success("操作成功");
+            int isliked = shequService.like(dto.getId());
+            LikeResponseDTO response = new LikeResponseDTO("操作成功", isliked);
+            return Result.success(response);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.error("操作失败");
         }
     }
-
 
     @ApiOperation("删除帖子")
     @DeleteMapping("/delete")

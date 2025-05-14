@@ -2,6 +2,7 @@ package com.sky.controller.admin;
 
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
+import com.sky.entity.Setmeal;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.SetmealService;
@@ -31,21 +32,27 @@ public class SetmealController {
     @PutMapping("/status/1/{id}")
     @ApiOperation("设置投诉状态未查看")
     public String updateStatusTo1(@PathVariable Long id) {
-        setmealService.updateStatusTo1(id);
+        Setmeal setmeal = new Setmeal();
+        setmeal.setId(id);
+        setmealService.updateStatusTo1(setmeal);
         return "状态更新为 1";
     }
 
     @PutMapping("/status/2/{id}")
     @ApiOperation("设置投诉状态处理中")
     public String updateStatusTo2(@PathVariable Long id) {
-        setmealService.updateStatusTo2(id);
+        Setmeal setmeal = new Setmeal();
+        setmeal.setId(id);
+        setmealService.updateStatusTo2(setmeal);
         return "状态更新为 2";
     }
 
     @PutMapping("/status/0/{id}")
     @ApiOperation("设置投诉状态已处理")
     public String updateStatusTo0(@PathVariable Long id) {
-        setmealService.updateStatusTo0(id);
+        Setmeal setmeal = new Setmeal();
+        setmeal.setId(id);
+        setmealService.updateStatusTo0(setmeal);
         return "状态更新为 0";
     }
     /**

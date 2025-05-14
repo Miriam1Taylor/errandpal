@@ -67,10 +67,6 @@ public class UserAutoFillAspect {
 //        转变赋值的数据
         LocalDateTime now = LocalDateTime.now();
         Long currentId = UserBaseContext.getCurrentId();
-// 获取所有方法名
-//        List<String> methodNames = Arrays.stream(entity.getClass().getDeclaredMethods())
-//                .map(Method::getName)
-//                .collect(Collectors.toList());
 //        根据当前不同的操作类型，为对应的属性通过反射来赋值
         if (operationType == OperationType.INSERT) {
 //            为4个公共字段赋值
@@ -78,15 +74,15 @@ public class UserAutoFillAspect {
                 // TODO 已解决
                 Method setCreateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_TIME, LocalDateTime.class);
                 Method setCreateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER, Long.class);
+                Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
+                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
 //              通过反射为对象赋值
                 //TODO 已解决
                 setCreateTime.invoke(entity, now);
                 setCreateUser.invoke(entity, currentId);
+                setUpdateTime.invoke(entity, now);
+                setUpdateUser.invoke(entity, currentId);
 
-//                if (methodNames.contains(AutoFillConstant.SET_CREATE_USER)) {
-//                    Method setCreateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER, Long.class);
-//                    setCreateUser.invoke(entity, currentId);
-//                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -95,11 +91,11 @@ public class UserAutoFillAspect {
 //            为2个公共字段赋值
             try {
                 Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
-//                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
-
+                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
 //              通过反射为对象赋值
                 setUpdateTime.invoke(entity, now);
-//                setUpdateUser.invoke(entity, currentId);
+                setUpdateUser.invoke(entity, currentId);
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

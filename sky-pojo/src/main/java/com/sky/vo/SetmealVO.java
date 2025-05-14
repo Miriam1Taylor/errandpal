@@ -40,6 +40,15 @@ public class SetmealVO implements Serializable {
     //更新时间
     private LocalDateTime updateTime;
 
+    // 更新用户
+    private Long updateUser;
+
+    //更新时间
+    private LocalDateTime createTime;
+
+    // 更新用户
+    private Long createUser;
+
     //分类名称
     private String categoryName;
 

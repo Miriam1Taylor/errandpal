@@ -26,5 +26,7 @@ public interface ZhuanyuanService{
     void renzheng(Long id);
 
     List<ZhuanyuanDTO> getZhuanyuanByUserId(Long userid);
+
+    void withdrawById(Long id);
 }
 

@@ -13,4 +13,6 @@ public interface UserService {
 
     boolean updateUserInfo(User user);
 
+    User getUserInfoById(Long id);
+
 }

@@ -67,12 +67,9 @@
         order by create_time desc
     </select>
 
-    <select id="list" resultType="Category">
+    <select id="list" resultType="com.sky.entity.Category">
         select * from category
---         这个是用在用户端的，不需要status
-        <if test="status != null">
-            and status = #{status}
-        </if>
+        where status = #{status}
         order by sort asc,create_time desc
     </select>
 </mapper>

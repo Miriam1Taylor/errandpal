@@ -21,14 +21,6 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-//    @ApiOperation("添加评论")
-//    @PostMapping("/add")
-//    public Result<String> addComment(@RequestBody Comment comment) {
-//        Long userId = BaseContext.getCurrentId(); // 获取当前用户ID
-//        commentService.addComment(comment, userId);
-//        return Result.success("评价提交成功");
-//    }
-
     @ApiOperation("添加评论")
     @PostMapping("/add")
     public Result<String> addComment(@RequestBody Comment comment) {

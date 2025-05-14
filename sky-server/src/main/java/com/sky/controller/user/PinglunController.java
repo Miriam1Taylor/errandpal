@@ -2,6 +2,7 @@ package com.sky.controller.user;
 
 import com.sky.context.UserBaseContext;
 import com.sky.dto.LikeRequestDTO;
+import com.sky.dto.LikeResponseDTO;
 import com.sky.dto.PinglunDTO;
 import com.sky.dto.PinglunDetailDTO;
 import com.sky.entity.Pinglun;
@@ -41,10 +42,11 @@ public class PinglunController {
 
     @ApiOperation("评论点赞")
     @PostMapping("/like")
-    public Result<String> like(@RequestBody LikeRequestDTO dto) {
+    public Result<LikeResponseDTO> like(@RequestBody LikeRequestDTO dto) {
         try {
-            pinglunService.like(dto.getId());
-            return Result.success("操作成功");
+            int isliked = pinglunService.like(dto.getId());
+            LikeResponseDTO response = new LikeResponseDTO("操作成功", isliked);
+            return Result.success(response);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.error("操作失败");
@@ -62,7 +64,6 @@ public class PinglunController {
             return Result.error("评论删除失败");
         }
     }
-
 
     @ApiOperation("评论详情")
     @GetMapping("/shequ/{shequId}")

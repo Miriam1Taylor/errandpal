@@ -85,7 +85,7 @@
     </select>
 
 <!--    个人资料完善-->
-    <update id="updateUserInfoByOpenid" parameterType="com.sky.entity.User">
+    <update id="updateUserInfoByid" parameterType="com.sky.entity.User">
         UPDATE user
         SET
             name = #{name},
@@ -93,7 +93,15 @@
             sex = #{sex},
             id_number = #{idNumber}
         WHERE
-            openid = #{openid}
+            id = #{id}
     </update>
+
+    <!--    获取个人资料-->
+    <select id="getUserInfoByid" resultType="com.sky.entity.User">
+        SELECT u.name, u.phone, u.sex, u.id_number
+            FROM user u
+        WHERE
+            id = #{id}
+    </select>
 
 </mapper>

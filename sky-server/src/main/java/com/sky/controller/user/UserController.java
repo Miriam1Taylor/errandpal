@@ -1,8 +1,11 @@
 package com.sky.controller.user;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.context.UserBaseContext;
+import com.sky.dto.CurrentUserDTO;
 import com.sky.dto.UserLoginDTO;
 import com.sky.entity.User;
+import com.sky.mapper.UserMapper;
 import com.sky.properties.JwtProperties;
 import com.sky.result.Result;
 import com.sky.service.UserService;
@@ -14,10 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -33,6 +33,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private JwtProperties jwtProperties;
@@ -64,12 +67,36 @@ public class UserController {
         return Result.success(userLoginVO);
     }
 
-
     @ApiOperation("用户个人信息完善")
     @PostMapping("/updateInfo")
-    public String updateUserInfo(@RequestBody User user) {
+    public Result<String> updateUserInfo(@RequestBody User user) {
+        user.setId(UserBaseContext.getCurrentId());
         boolean success = userService.updateUserInfo(user);
-        return success ? "用户信息更新成功" : "更新失败，请检查openid是否存在";
+        return success ? Result.success("用户信息更新成功") : Result.error("更新失败，请检查id是否存在");
     }
+
+    @ApiOperation("用户个人信息展示")
+    @GetMapping("/showInfo/{userId}")
+    public Result<User> showUserInfo(@PathVariable  Long userId) {
+        User user = userService.getUserInfoById(userId);
+        return user != null ? Result.success(user) : Result.error("获取失败，请检查用户是否存在");
+    }
+
+    @ApiOperation("获取当前登录用户ID")
+    @GetMapping("/getCurrentId")
+    public Result<CurrentUserDTO> getCurrentUserId() {
+        Long id = UserBaseContext.getCurrentId();
+        String id2 = id.toString();
+        User user = userMapper.getById(id2); // 请确认你有这个方法
+
+        if (user == null) {
+            return Result.error("用户不存在");
+        }
+
+        CurrentUserDTO dto = new CurrentUserDTO(user.getId(), user.getName(), user.getAvatar());
+        return Result.success(dto); // 只返回 data，不带 message
+    }
+
+
 
 }

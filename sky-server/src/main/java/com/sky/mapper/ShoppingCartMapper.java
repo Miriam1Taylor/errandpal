@@ -27,6 +27,12 @@ public interface ShoppingCartMapper {
     void insert(ShoppingCart shoppingCart);
 
     /**
+     * 插入购物车数据
+     * @param shoppingCart
+     */
+    void update(ShoppingCart shoppingCart);
+
+    /**
      * 清空购物车商品
      * @param currentId
      */

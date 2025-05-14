@@ -47,5 +47,7 @@ public class Setmeal implements Serializable {
 
     private Long updateUser;
 
-    private Long userid;
+    private Long zhuanyuanid;
+
+    private Long orderid;
 }

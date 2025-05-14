@@ -1,6 +1,7 @@
 package com.sky.controller.user;
 
 import com.sky.dto.ShoppingCartDTO;
+import com.sky.dto.UpdateShoppingCartDTO;
 import com.sky.entity.ShoppingCart;
 import com.sky.result.Result;
 import com.sky.service.ShoppingCartService;
@@ -26,15 +27,28 @@ public class ShoppingCartController {
 
     /**
      * 添加购物车
-     * @param shoppingCartDTO
+     * @param updateShoppingCartDTO
      * @return
      */
     @PostMapping("/add")
     @ApiOperation("添加购物车")
-    public Result<String> add(@RequestBody ShoppingCartDTO shoppingCartDTO) {
-        log.info("添加购物车：{}", shoppingCartDTO);
-        shoppingCartService.addShoppingCart(shoppingCartDTO);
-        return Result.success();
+    public Result<String> add(@RequestBody UpdateShoppingCartDTO updateShoppingCartDTO) {
+        log.info("添加购物车：{}", updateShoppingCartDTO);
+        shoppingCartService.addShoppingCart(updateShoppingCartDTO);
+        return Result.success("加入成功");
+    }
+
+    /**
+     * 添加购物车
+     * @param updateShoppingCartDTO
+     * @return
+     */
+    @PostMapping("/update")
+    @ApiOperation("据详情添加购物车")
+    public Result<String> updateCart(@RequestBody UpdateShoppingCartDTO updateShoppingCartDTO) {
+        log.info("添加购物车：{}", updateShoppingCartDTO);
+        shoppingCartService.updateCartItemInfo(updateShoppingCartDTO);
+        return Result.success("成功添加");
     }
 
     /**

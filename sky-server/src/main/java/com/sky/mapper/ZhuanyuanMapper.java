@@ -41,4 +41,6 @@ public interface ZhuanyuanMapper {
 
     @Select("SELECT id, active, judge, userid FROM zhuanyuan WHERE userid = #{userid}")
     List<ZhuanyuanDTO> getByUserId(Long userid);
+
+    void withdraw(Long id);
 }

@@ -7,11 +7,11 @@ sky:
     username: root
     password: 123456
     # 阿里云oss存储
-#  alioss:
-#    endpoint: oss-cn-hangzhou.aliyuncs.com
-#    access-key-id: LTAI5t75qiw2M3gLELn1ivwV
-#    access-key-secret: NCbyvEAo14N8Z051cJZRE24HLM4yAZ
-#    bucket-name: errandpal
+  alioss:
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    access-key-id: LTAI5t75qiw2M3gLELn1ivwV
+    access-key-secret: NCbyvEAo14N8Z051cJZRE24HLM4yAZ
+    bucket-name: errandpal
   redis:
 #    host: 192.168.8.128
 #    赵哲婷

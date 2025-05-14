@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.OrderDetailMapper">
 
+
+<!--    防止逻辑冲突name，image，amount不插入-->
 <!--    批量插入订单明细数据-->
     <insert id="insertBatch">
         insert into order_detail (name, order_id, dish_id, setmeal_id, dish_flavor, number, amount, image)

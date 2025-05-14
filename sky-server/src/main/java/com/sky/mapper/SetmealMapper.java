@@ -2,6 +2,7 @@ package com.sky.mapper;
 
 import com.github.pagehelper.Page;
 import com.sky.annotation.AutoFill;
+import com.sky.annotation.UserAutoFill;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.enumeration.OperationType;
@@ -16,9 +17,16 @@ import java.util.Map;
 
 @Mapper
 public interface SetmealMapper {
-    int updateStatusTo1(Long id);
-    int updateStatusTo2(Long id);
-    int updateStatusTo0(Long id);
+
+    @AutoFill(OperationType.UPDATE)
+    int updateStatusTo1(Setmeal setmeal);
+
+    @AutoFill(OperationType.UPDATE)
+    int updateStatusTo2(Setmeal setmeal);
+
+    @AutoFill(OperationType.UPDATE)
+    int updateStatusTo0(Setmeal setmeal);
+
     /**
      * 根据分类id查询套餐的数量
      * @param categoryId
@@ -81,5 +89,6 @@ public interface SetmealMapper {
      */
     Integer countByMap(Map map);
 
+    @UserAutoFill(OperationType.INSERT)
     void insertSetmeal(Setmeal setmeal);
 }

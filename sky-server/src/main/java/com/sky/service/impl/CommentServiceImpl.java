@@ -22,9 +22,11 @@ public class CommentServiceImpl implements CommentService {
     public void addComment(Comment comment, Long userId) {
         comment.setUserid(userId);  // 设置当前用户ID
         commentMapper.insert(comment); // 插入评论
-        orderMapper.updateCommentId(comment.getOrderid(), comment.getId()); // 更新订单的 commentid 字段
-    }
+        // 插入后，获取评论ID（假设插入成功后 comment.id 会被自动回填）
+        orderMapper.updateOrderComment(comment.getId(), comment.getJudge(), comment.getOrderid());
+        orderMapper.updateZhuanyuanJudge(comment.getJudge(), comment.getOrderid());
 
+    }
     @Override
     public OrderCommentStatusDTO getCommentStatusByOrderId(Long orderId) {
         return commentMapper.selectOrderCommentStatusById(orderId);

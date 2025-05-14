@@ -127,6 +127,9 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     public List<Category> list(Integer status) {
+        if (status == null) {
+            status = 1;
+        }
         return categoryMapper.list(status);
     }
 

@@ -2,6 +2,7 @@ package com.sky.controller.user;
 
 import com.sky.context.UserBaseContext;
 import com.sky.dto.ZhuanyuanRecommendDTO;
+import com.sky.result.Result;
 import com.sky.service.RecommendService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,8 +21,10 @@ public class RecommendController {
 
     @ApiOperation("专员推荐算法")
     @GetMapping
-    public List<ZhuanyuanRecommendDTO> getRecommendations() {// 获取当前登录用户id
+    public Result<List<ZhuanyuanRecommendDTO>> getRecommendations() {
         Long userId = UserBaseContext.getCurrentId();
-        return recommendService.recommendForUser(userId);
+        List<ZhuanyuanRecommendDTO> list = recommendService.recommendForUser(userId);
+        return Result.success(list);
     }
+
 }

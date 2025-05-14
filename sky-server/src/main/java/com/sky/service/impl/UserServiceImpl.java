@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
 import com.sky.constant.MessageConstant;
+import com.sky.context.UserBaseContext;
 import com.sky.dto.UserLoginDTO;
 import com.sky.entity.User;
 import com.sky.exception.LoginFailedException;
@@ -83,8 +84,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUserInfo(User user) {
-        int result = userMapper.updateUserInfoByOpenid(user);
+        int result = userMapper.updateUserInfoByid(user);
         return result > 0;
+    }
+
+    @Override
+    public User getUserInfoById(Long id) {
+        User result = userMapper.getUserInfoByid(id);
+        return result;
     }
 
 }
