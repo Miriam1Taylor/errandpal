@@ -58,6 +58,17 @@
 
     </update>
 
+
+    <!-- 更新奖励 -->
+    <update id="updateReward2">
+        UPDATE zhuanyuan
+        SET
+            judge = judge + #{evaluation},
+            active = active + #{activity}
+        WHERE id = #{id}
+    </update>
+
+
     <!-- 推荐算法 -->
     <select id="recommendZhuanyuanByDishTaste" resultType="com.sky.dto.ZhuanyuanRecommendDTO">
         SELECT

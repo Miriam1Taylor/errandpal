@@ -23,6 +23,7 @@ import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 import com.sky.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +67,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private ZhuanyuanMapper zhuanyuanMapper;
 
     @Autowired
     private WeChatPayUtil weChatPayUtil;
@@ -380,12 +384,13 @@ public class OrderServiceImpl implements OrderService {
     public void accept4Zhuanyuan(Long id) {
 //        根据id查询订单
         Orders orderDB = orderMapper.getById(id);
+        System.out.println(orderDB);
 //        校验订单是否存在
         if (orderDB == null) {
             throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
         }
 //      订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
-        if (orderDB.getStatus() > 2) {
+        if (orderDB.getStatus().equals(Orders.CANCELLED) || orderDB.getStatus().equals(Orders.PENDING_PAYMENT) ) {
             throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
         }
 
@@ -394,24 +399,24 @@ public class OrderServiceImpl implements OrderService {
 
 //        订单处于待接单的状态下接取
         if (orderDB.getStatus().equals(Orders.TO_BE_CONFIRMED)) {
-//            支付状态修改为 已接单
-            orders.setPayStatus(Orders.CONFIRMED);
-        }
+            Long userId = UserBaseContext.getCurrentId();
+            orders.setZhuanyuanId(orderMapper.getZhuanyuanIdByUserId(userId));
 
-//        订单处于已接单的状态下接取
+//            支付状态修改为 已接单
+            orders.setStatus(Orders.CONFIRMED);
+        }
+//        订单处于已接单的状态下进行派送
         if (orderDB.getStatus().equals(Orders.CONFIRMED)) {
 //            支付状态修改为 派送中
-            orders.setPayStatus(Orders.DELIVERY_IN_PROGRESS);
+            orders.setStatus(Orders.DELIVERY_IN_PROGRESS);
         }
 
-        //        订单处于已接单的状态下接取
+        //        订单处于已接单的状态下完成订单
         if (orderDB.getStatus().equals(Orders.DELIVERY_IN_PROGRESS)) {
 //            支付状态修改为 已完成
-            orders.setPayStatus(Orders.COMPLETED);
-
-
+            orders.setStatus(Orders.COMPLETED);
+            zhuanyuanMapper.updateReward2(orders.getZhuanyuanId(),0,15);
         }
-
 //        更新订单状态
         orderMapper.update(orders);
     }
@@ -752,6 +757,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 检查客户的收货地址是否超出配送范围
+     * 百度地图的用不了了，前端换成腾讯地图了
      * @param address
      */
     private void checkOutOfRange(String address) {

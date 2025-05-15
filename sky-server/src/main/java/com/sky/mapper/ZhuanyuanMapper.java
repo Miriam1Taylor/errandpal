@@ -25,6 +25,11 @@ public interface ZhuanyuanMapper {
                      @Param("evaluation") Integer evaluation,
                      @Param("activity") Integer activity);
 
+    // 更新奖励：增加评价度和活跃度
+    int updateReward2(@Param("id") Long id,
+                     @Param("evaluation") Integer evaluation,
+                     @Param("activity") Integer activity);
+
     int getActive(@Param("id") Long id);
     int getJudge(@Param("id") Long id);
 

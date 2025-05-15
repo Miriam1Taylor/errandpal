@@ -26,9 +26,9 @@ public class AliOssUtil {
      * @param objectName
      * @return
      */
-    public String upload(byte[] bytes, String objectName) {
+    public String upload(byte[] bytes, String objectName) { // obj：文件上传到 OSS 后的名称（路径+文件名）。
 
-        // 创建OSSClient实例。
+        // 创建OSSClient实例。阿里云账户的 endpoint（地域节点）、accessKeyId 和 accessKeySecret 创建一个 OSS 客户端
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
         try {

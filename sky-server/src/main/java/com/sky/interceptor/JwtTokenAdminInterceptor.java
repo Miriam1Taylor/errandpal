@@ -19,10 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 @Slf4j
 public class JwtTokenAdminInterceptor implements HandlerInterceptor {
-
     @Autowired
     private JwtProperties jwtProperties;
-
     /**
      * 校验jwt
      *
