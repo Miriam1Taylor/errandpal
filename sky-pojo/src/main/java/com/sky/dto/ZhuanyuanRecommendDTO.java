@@ -6,8 +6,12 @@ import lombok.Data;
 public class ZhuanyuanRecommendDTO {
 
     private Long zhuanyuanId;
+
     private String zhuanyuanName;
+
     private Double weightedScore;
+
     private Integer orderCount;
+
     private String avatar;
 }
