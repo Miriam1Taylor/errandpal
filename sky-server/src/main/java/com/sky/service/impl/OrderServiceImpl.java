@@ -153,6 +153,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * 分配专员
+     * @param id,zhuanyuanId
+     */
+    @Override
+    public void assignZhuanyuan(Long id, Long zhuanyuanId) {
+        Orders orderDB = orderMapper.getById(id);
+        if (orderDB == null) {
+            throw new RuntimeException("订单不存在");
+        }
+        orderDB.setZhuanyuanId(zhuanyuanId);
+        orderMapper.update(orderDB);
+    }
+
+    /**
      * 订单支付
      * @param ordersPaymentDTO
      * @return
@@ -208,6 +222,8 @@ public class OrderServiceImpl implements OrderService {
 
         return vo;
     }
+
+
 
     /**
      * 支付成功，修改订单状态
@@ -415,7 +431,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderDB.getStatus().equals(Orders.DELIVERY_IN_PROGRESS)) {
 //            支付状态修改为 已完成
             orders.setStatus(Orders.COMPLETED);
-            zhuanyuanMapper.updateReward2(orders.getZhuanyuanId(),0,15);
+            zhuanyuanMapper.updateReward2(orderDB.getZhuanyuanId(),0,15);
         }
 //        更新订单状态
         orderMapper.update(orders);
@@ -564,10 +580,17 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public void confirm(OrdersCancelDTO ordersCancelDTO) {
+        // 从zhuanyuan表中随机获取一个zhuanyuanId
+        Long randomZhuanyuanId = zhuanyuanMapper.selectRandomZhuanyuanId();  // 你需要实现这个方法
+
         Orders orders = Orders.builder()
                 .id(ordersCancelDTO.getId())
                 .status(Orders.CONFIRMED)
                 .build();
+        // 设置随机选中的zhuanyuanId
+        orders.setZhuanyuanId(randomZhuanyuanId);
+
+        // 更新订单状态与专员ID
         orderMapper.update(orders);
     }
 
@@ -692,6 +715,7 @@ public class OrderServiceImpl implements OrderService {
         orderDB.setStatus(Orders.COMPLETED);
         System.out.println("订单status:"+orderDB.getStatus());
         orderDB.setDeliveryTime(LocalDateTime.now());
+        zhuanyuanMapper.updateReward2(orderDB.getZhuanyuanId(),0,15);
 
         orderMapper.update(orderDB);
     }

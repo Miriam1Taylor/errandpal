@@ -95,7 +95,13 @@
             LIMIT 10
     </select>
 
-
+<!--随机选取专员id，按照rand(随机）排序-->
+    <select id="selectRandomZhuanyuanId" resultType="long">
+        SELECT id
+        FROM zhuanyuan
+        ORDER BY RAND()
+            LIMIT 1
+    </select>
 
     <!-- 获取活跃度 -->
     <select id="getActive" resultType="int">

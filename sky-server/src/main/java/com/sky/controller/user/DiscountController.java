@@ -61,15 +61,16 @@ public class DiscountController {
      */
     @ApiOperation("使用优惠券")
     @PutMapping("/use")
-    public String updateUserDiscount(@RequestBody OrdersDTO dto, @RequestParam Discount discount) throws Exception {
+    public Result<String> updateUserDiscount(@RequestBody OrdersDTO dto, @RequestParam Discount discount) {
         try {
             Long id = discount.getId();
             Long orderid = dto.getId();
 
             discountService.updateUserDiscount(id, orderid);
-            return "User discount updated successfully.";
+            return Result.success("用户成功使用优惠券");
         } catch (Exception e) {
-            return "Error: " + e.getMessage();
+            return Result.error("操作失败");
         }
     }
+
 }

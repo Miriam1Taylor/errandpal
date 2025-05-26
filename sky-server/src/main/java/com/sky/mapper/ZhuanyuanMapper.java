@@ -19,6 +19,8 @@ public interface ZhuanyuanMapper {
 
     long count(@Param("name") String name,
                @Param("phone") String phone);
+    // 随机选取专员id
+    Long selectRandomZhuanyuanId();
 
     // 更新奖励：增加评价度和活跃度
     int updateReward(@Param("id") Long id,

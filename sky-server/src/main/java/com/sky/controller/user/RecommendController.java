@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Api(tags = "C端-协同过滤算法")
+@Api(tags = "C端-推荐算法")
 @RequestMapping("/user/recommend")
 public class RecommendController {
 

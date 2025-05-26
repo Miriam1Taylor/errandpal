@@ -1,5 +1,6 @@
 package com.sky.controller.user;
 
+import com.sky.dto.AssignZhuanyuanRequest;
 import com.sky.dto.OrderCommentStatusDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
@@ -83,6 +84,21 @@ public class OrderController {
         log.info("生成预支付交易单：{}", orderPaymentVO);
         return Result.success(orderPaymentVO);
     }
+
+    @ApiOperation("指派专员")
+    @PostMapping("/assignZhuanyuan")
+    public Result<String> assignZhuanyuan(@RequestBody AssignZhuanyuanRequest req) {
+        System.out.println(req); // 看看输出是否正常
+        try {
+            orderService.assignZhuanyuan(req.getOrderId(), req.getZhuanyuanId());
+            return Result.success("专员分配成功！");
+        } catch (Exception e) {
+            return Result.error("分配失败：" + e.getMessage());
+        }
+    }
+
+
+
 
     /**
      * 历史订单查询

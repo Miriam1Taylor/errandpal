@@ -31,6 +31,13 @@ public interface OrderService {
     void paySuccess(String outTradeNo);
 
     /**
+     * 分配专员
+     * @param orderId,zhuanyuanId
+     */
+    void assignZhuanyuan(Long orderId, Long zhuanyuanId);
+
+
+    /**
      * 用户端订单分页查询
      * @param page
      * @param pageSize

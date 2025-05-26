@@ -25,10 +25,10 @@ public class DiscountTask {
      */
     @Scheduled(cron = "0/15  * * * * ?")
     public void executeTask(){
-        log.info("定时任务折扣券状态更新：{}",new Date());
-        //TODO 这边业务要开，但是测试防止工作台内容太多先注释掉，这两行都得用
-//        userDiscountMapper.updateExpiredCoupons(LocalDateTime.now());
-//        userDiscountMapper.updateExpiredCoupons2(LocalDateTime.now());
+//        log.info("定时任务折扣券状态更新：{}",new Date());
+        //TODO 这边业务要开，但是测试防止工作台内容太多先注释掉，这上下三行都得用
+        userDiscountMapper.updateExpiredCoupons(LocalDateTime.now());
+        userDiscountMapper.updateExpiredCoupons2(LocalDateTime.now());
     }
 }
 
